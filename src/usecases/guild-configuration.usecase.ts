@@ -1,4 +1,4 @@
-import GuildService from "../services/guild.service";
+import GuildService from "../services/guild.service.js";
 
 class GuildConfigurationUseCase {
   public guildService: typeof GuildService;

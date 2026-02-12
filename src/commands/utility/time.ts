@@ -6,7 +6,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
-import sessionService from "../../services/session.service";
+import sessionService from "../../services/session.service.js";
 
 export default {
   data: new SlashCommandBuilder()
