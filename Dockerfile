@@ -7,6 +7,8 @@ RUN npm install
 
 COPY . .
 
+RUN npx prisma migrate deploy
+
 RUN npm run build
 
 CMD ["npm", "run", "start"]
