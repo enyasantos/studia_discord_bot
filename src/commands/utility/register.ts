@@ -8,10 +8,14 @@ export default {
     .setDescription("Registra você no sistema de XP/Level do bot"),
   async execute(interaction: any) {
     const discordId = interaction.user.id;
+    const guildId = interaction.guildId;
     const username = interaction.user.tag;
 
     try {
-      const existingUser = await usersService.findUserByDiscordId(discordId);
+      const existingUser = await usersService.findUserByDiscordId(
+        discordId,
+        guildId,
+      );
       if (existingUser) {
         await interaction.reply(
           `<@${interaction.user.id}> já está registrado!`,
@@ -19,7 +23,7 @@ export default {
         return;
       }
 
-      const user = await usersService.upsertUser(discordId, username);
+      const user = await usersService.upsertUser(discordId, username, guildId);
       await levelsService.create(user.id);
 
       await interaction.reply(

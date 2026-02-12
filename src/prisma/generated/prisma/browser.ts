@@ -32,3 +32,8 @@ export type Level = Prisma.LevelModel
  * 
  */
 export type Session = Prisma.SessionModel
+/**
+ * Model GuildConfig
+ * 
+ */
+export type GuildConfig = Prisma.GuildConfigModel

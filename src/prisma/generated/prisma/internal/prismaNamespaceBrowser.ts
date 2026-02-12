@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Level: 'Level',
-  Session: 'Session'
+  Session: 'Session',
+  GuildConfig: 'GuildConfig'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -75,6 +76,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   discordId: 'discordId',
+  guildId: 'guildId',
   username: 'username',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -106,6 +108,19 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const GuildConfigScalarFieldEnum = {
+  id: 'id',
+  guildId: 'guildId',
+  categoryId: 'categoryId',
+  textChannelId: 'textChannelId',
+  voiceChannelId: 'voiceChannelId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GuildConfigScalarFieldEnum = (typeof GuildConfigScalarFieldEnum)[keyof typeof GuildConfigScalarFieldEnum]
 
 
 export const SortOrder = {

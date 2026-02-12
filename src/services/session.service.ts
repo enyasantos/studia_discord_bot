@@ -14,10 +14,22 @@ class SessionService {
     });
   }
 
-  async getCurrentSession(userId: string) {
+  async getCurrentSession(discordId: string, guildId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        discord_guild_unique: {
+          discordId,
+          guildId,
+        },
+      },
+    });
+    if (!user) {
+      return null;
+    }
+
     return await this.prisma.session.findFirst({
       where: {
-        userId,
+        userId: user.id,
         endTime: null,
       },
     });
@@ -25,7 +37,12 @@ class SessionService {
 
   async endCurrentSession(userId: string) {
     const endTime = new Date();
-    const currentSession = await this.getCurrentSession(userId);
+    const currentSession = await this.prisma.session.findFirst({
+      where: {
+        userId,
+        endTime: null,
+      },
+    });
     if (!currentSession) {
       throw new Error("No active session found for user");
     }
@@ -41,8 +58,8 @@ class SessionService {
   private calculateSessionXP(start: Date, end: Date): number {
     const totalMinutes = Math.floor((end.getTime() - start.getTime()) / 60000);
 
-    // if (totalMinutes <= 0) return 0;
-
+    if (totalMinutes <= 0) return 0;
+    if (totalMinutes <= 10) return 15;
     if (totalMinutes <= 20) return 50;
     if (totalMinutes <= 40) return 100;
     if (totalMinutes <= 60) return 150;

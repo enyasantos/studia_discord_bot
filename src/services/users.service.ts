@@ -5,10 +5,13 @@ class UsersService {
 
   constructor() {}
 
-  async findUserByDiscordId(discordId: string) {
+  async findUserByDiscordId(discordId: string, guildId: string) {
     return await this.prisma.user.findUnique({
       where: {
-        discordId,
+        discord_guild_unique: {
+          discordId,
+          guildId,
+        },
       },
       include: {
         level: true,
@@ -16,10 +19,13 @@ class UsersService {
     });
   }
 
-  async upsertUser(discordId: string, username: string) {
+  async upsertUser(discordId: string, username: string, guildId: string) {
     return await this.prisma.user.upsert({
       where: {
-        discordId,
+        discord_guild_unique: {
+          discordId,
+          guildId,
+        },
       },
       update: {
         username,
@@ -28,6 +34,7 @@ class UsersService {
       create: {
         discordId,
         username,
+        guildId,
       },
     });
   }

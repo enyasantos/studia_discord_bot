@@ -11,4 +11,5 @@
 export type * from './models/User.ts'
 export type * from './models/Level.ts'
 export type * from './models/Session.ts'
+export type * from './models/GuildConfig.ts'
 export type * from './commonInputTypes.ts'

@@ -13,8 +13,11 @@ class FinalizeSessionUseCase {
     this.usersService = UsersService;
   }
 
-  async execute(discordId: string) {
-    const user = await this.usersService.findUserByDiscordId(discordId);
+  async execute(discordId: string, guildId: string) {
+    const user = await this.usersService.findUserByDiscordId(
+      discordId,
+      guildId,
+    );
     if (!user) {
       throw new Error("User not found. Please register first.");
     }

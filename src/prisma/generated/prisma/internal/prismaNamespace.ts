@@ -386,7 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Level: 'Level',
-  Session: 'Session'
+  Session: 'Session',
+  GuildConfig: 'GuildConfig'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "level" | "session"
+    modelProps: "user" | "level" | "session" | "guildConfig"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +629,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GuildConfig: {
+      payload: Prisma.$GuildConfigPayload<ExtArgs>
+      fields: Prisma.GuildConfigFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GuildConfigFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GuildConfigFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>
+        }
+        findFirst: {
+          args: Prisma.GuildConfigFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GuildConfigFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>
+        }
+        findMany: {
+          args: Prisma.GuildConfigFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>[]
+        }
+        create: {
+          args: Prisma.GuildConfigCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>
+        }
+        createMany: {
+          args: Prisma.GuildConfigCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GuildConfigCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>[]
+        }
+        delete: {
+          args: Prisma.GuildConfigDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>
+        }
+        update: {
+          args: Prisma.GuildConfigUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>
+        }
+        deleteMany: {
+          args: Prisma.GuildConfigDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GuildConfigUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GuildConfigUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>[]
+        }
+        upsert: {
+          args: Prisma.GuildConfigUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuildConfigPayload>
+        }
+        aggregate: {
+          args: Prisma.GuildConfigAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGuildConfig>
+        }
+        groupBy: {
+          args: Prisma.GuildConfigGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuildConfigGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GuildConfigCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuildConfigCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -670,6 +745,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   discordId: 'discordId',
+  guildId: 'guildId',
   username: 'username',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -701,6 +777,19 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const GuildConfigScalarFieldEnum = {
+  id: 'id',
+  guildId: 'guildId',
+  categoryId: 'categoryId',
+  textChannelId: 'textChannelId',
+  voiceChannelId: 'voiceChannelId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GuildConfigScalarFieldEnum = (typeof GuildConfigScalarFieldEnum)[keyof typeof GuildConfigScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -886,6 +975,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   level?: Prisma.LevelOmit
   session?: Prisma.SessionOmit
+  guildConfig?: Prisma.GuildConfigOmit
 }
 
 /* Types for Logging */

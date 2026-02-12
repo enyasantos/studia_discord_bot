@@ -20,13 +20,16 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  discordId String   @unique
+  discordId String
+  guildId   String
   username  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   sessions Session[]
   level    Level?
+
+  @@unique([discordId, guildId], name: "discord_guild_unique")
 }
 
 model Level {
@@ -37,7 +40,7 @@ model Level {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Session {
@@ -49,5 +52,15 @@ model Session {
   xpEarned  Int       @default(0)
   updatedAt DateTime  @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model GuildConfig {
+  id             String   @id @default(uuid())
+  guildId        String   @unique
+  categoryId     String
+  textChannelId  String
+  voiceChannelId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
