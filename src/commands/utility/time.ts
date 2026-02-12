@@ -36,7 +36,7 @@ export default {
       const multiplier = 1;
 
       embed = new EmbedBuilder()
-        .setTitle("📊 • SESSÃO ATUAL")
+        .setTitle("📊 SESSÃO ATUAL")
         .setColor("Blue")
         .addFields({
           name: "⏱️ Tempo Decorrido",

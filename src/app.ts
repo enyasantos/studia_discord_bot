@@ -12,11 +12,12 @@ import {
 import * as dotenv from "dotenv";
 
 import PingCommand from "./commands/utility/ping.js";
-import UserCommand from "./commands/utility/user.js";
+import LevelCommand from "./commands/utility/level.js";
 import TodoCommand from "./commands/utility/todo.js";
 import RegisterCommand from "./commands/utility/register.js";
 import InitializeCommand from "./commands/utility/initialize.js";
 import TimeCommand from "./commands/utility/time.js";
+import RankCommand from "./commands/utility/rank.js";
 
 import finalizeSessionUsecase from "./usecases/finalize-session.usecase.js";
 import initializeSessionUsecase from "./usecases/initialize-session.usecase.js";
@@ -64,19 +65,20 @@ client.on(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 
   client.application?.commands.create(PingCommand.data);
-  client.application?.commands.create(UserCommand.data);
+  client.application?.commands.create(LevelCommand.data);
   client.application?.commands.create(TodoCommand.data);
   client.application?.commands.create(RegisterCommand.data);
   client.application?.commands.create(InitializeCommand.data);
   client.application?.commands.create(TimeCommand.data);
+  client.application?.commands.create(RankCommand.data);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.isChatInputCommand()) {
     if (interaction.commandName === PingCommand.data.name) {
       await PingCommand.execute(interaction);
-    } else if (interaction.commandName === UserCommand.data.name) {
-      await UserCommand.execute(interaction);
+    } else if (interaction.commandName === LevelCommand.data.name) {
+      await LevelCommand.execute(interaction);
     } else if (interaction.commandName === TodoCommand.data.name) {
       await TodoCommand.execute(interaction);
     } else if (interaction.commandName === RegisterCommand.data.name) {
@@ -85,6 +87,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await InitializeCommand.execute(interaction);
     } else if (interaction.commandName === TimeCommand.data.name) {
       await TimeCommand.execute(interaction);
+    } else if (interaction.commandName === RankCommand.data.name) {
+      await RankCommand.execute(interaction);
     }
   }
 

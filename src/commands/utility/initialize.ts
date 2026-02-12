@@ -19,8 +19,6 @@ export default {
   ],
 
   async execute(interaction: ChatInputCommandInteraction) {
-    // if (!interaction.isButton()) return;
-
     const embed = new EmbedBuilder()
       .setTitle("🎛️ Gerenciamento de canais de estudo")
       .setDescription(

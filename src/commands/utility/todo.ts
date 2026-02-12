@@ -12,6 +12,8 @@ export default {
     const username = interaction.user.id;
     const text = interaction.options.getString("text", true);
 
-    await interaction.reply(`📝 Todo criado por <@${username}>: **${text}**`);
+    await interaction.reply(
+      `[NÃO FUNCIONAL] 📝 Todo criado por <@${username}>: **${text}**`,
+    );
   },
 };
