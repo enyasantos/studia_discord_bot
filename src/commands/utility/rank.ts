@@ -10,7 +10,6 @@ export default {
     .setDescription("Mostra a tabela de ranks e níveis"),
 
   async execute(interaction: ChatInputCommandInteraction) {
-    // Tabela de ranks
     const ranks = [
       { range: "1-5", rank: "Bronze I" },
       { range: "6-9", rank: "Bronze II" },
@@ -36,14 +35,12 @@ export default {
       { range: "100+", rank: "Lenda" },
     ];
 
-    // Cria embed
     const embed = new EmbedBuilder()
       .setTitle("🏆 Tabela de Ranks")
       .setDescription("Veja os níveis correspondentes a cada rank")
       .setColor(0xffd700) // dourado
       .setFooter({ text: "Level progressivo até Lenda" });
 
-    // Adiciona cada rank como um campo
     ranks.forEach((r) => {
       embed.addFields({
         name: r.rank,
@@ -52,7 +49,6 @@ export default {
       });
     });
 
-    // Envia embed
     await interaction.reply({ embeds: [embed] });
   },
 };

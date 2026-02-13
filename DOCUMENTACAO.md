@@ -62,12 +62,12 @@ Categoria "Estudos" criada com sucesso com os canais: #estudo-texto e 🎤estudo
 
 ### 3️⃣ Registrar sua Conta
 
-**Comando:** `/register`
+**Comando:** `/registrar`
 
 Após os canais serem configurados, você pode se registrar no sistema de XP/Level.
 
 ```
-/register
+/registrar
 ```
 
 O bot irá:
@@ -374,7 +374,7 @@ Isso irá:
 Após o Passo 3 ser completado, cada usuário executa:
 
 ```
-/register
+/registrar
 ```
 
 E está pronto para começar a ganhar XP!
@@ -446,7 +446,7 @@ Você agora está pronto para usar o **StudiaBot**!
 **Sequência de primeiros passos:**
 
 1. 🔴 **`/configurar`** - **PRIMEIRO** (obrigatório para admin)
-2. `/register` - Se registre (após os canais serem criados)
+2. `/registrar` - Se registre (após os canais serem criados)
 3. `/nivel` - Veja seu perfil
 4. `/ranks` - Veja os ranks disponíveis
 5. Entre em um canal de voz e comece a estudar!

@@ -4,7 +4,7 @@ import levelsService from "../../services/levels.service.js";
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("register")
+    .setName("registrar")
     .setDescription("Registra você no sistema de XP/Level do bot"),
   async execute(interaction: any) {
     const discordId = interaction.user.id;

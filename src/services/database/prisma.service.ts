@@ -19,6 +19,21 @@ class PrismaService {
     }
     return PrismaService.instance;
   }
+
+  public static async connect() {
+    try {
+      const prisma = PrismaService.getInstance();
+      await prisma.$connect();
+
+      // Teste real de query
+      await prisma.$queryRaw`SELECT 1`;
+
+      console.log("✅ Successfully connected to the database!");
+    } catch (error) {
+      console.error("❌Error on connecting to the database:", error);
+      throw error;
+    }
+  }
 }
 
 export default PrismaService;

@@ -49,6 +49,22 @@ class LevelsService {
     };
   }
 
+  async getAllLevelsByGuild(guildId: string) {
+    return await this.prisma.level.findMany({
+      where: {
+        user: {
+          guildId,
+        },
+      },
+      include: {
+        user: true,
+      },
+      orderBy: {
+        xp: "desc",
+      },
+    });
+  }
+
   private calculateLevel(totalXP: number): number {
     const XP_PER_LEVEL = 50; // This is a base value to control leveling speed
     return Math.floor(Math.pow(totalXP / XP_PER_LEVEL, 0.8)) + 1;

@@ -6,7 +6,6 @@ import {
   ChannelType,
   PermissionsBitField,
   Guild,
-  GuildMember,
   VoiceState,
 } from "discord.js";
 import * as dotenv from "dotenv";
@@ -18,6 +17,8 @@ import RegisterCommand from "./commands/utility/register.js";
 import InitializeCommand from "./commands/utility/initialize.js";
 import TimeCommand from "./commands/utility/time.js";
 import RankCommand from "./commands/utility/rank.js";
+import ScoreboardCommand from "./commands/utility/scoreboard.js";
+import CommandsCommand from "./commands/utility/commands.js";
 
 import finalizeSessionUsecase from "./usecases/finalize-session.usecase.js";
 import initializeSessionUsecase from "./usecases/initialize-session.usecase.js";
@@ -25,6 +26,9 @@ import guildConfigurationUseCase from "./usecases/guild-configuration.usecase.js
 import getGuildConfigurationUseCase from "./usecases/get-guild-configuration.usecase.js";
 
 dotenv.config();
+
+const PrismaService = await import("./services/database/prisma.service.js");
+await PrismaService.default.connect();
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
@@ -71,24 +75,49 @@ client.on(Events.ClientReady, (readyClient) => {
   client.application?.commands.create(InitializeCommand.data);
   client.application?.commands.create(TimeCommand.data);
   client.application?.commands.create(RankCommand.data);
+  client.application?.commands.create(ScoreboardCommand.data);
+  client.application?.commands.create(CommandsCommand.data);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
+  const mapper = {
+    ping: PingCommand,
+    nivel: LevelCommand,
+    todo: TodoCommand,
+    registrar: RegisterCommand,
+    configurar: InitializeCommand,
+    tempo: TimeCommand,
+    ranks: RankCommand,
+    placar: ScoreboardCommand,
+    help: CommandsCommand,
+  };
+
   if (interaction.isChatInputCommand()) {
-    if (interaction.commandName === PingCommand.data.name) {
-      await PingCommand.execute(interaction);
-    } else if (interaction.commandName === LevelCommand.data.name) {
-      await LevelCommand.execute(interaction);
-    } else if (interaction.commandName === TodoCommand.data.name) {
-      await TodoCommand.execute(interaction);
-    } else if (interaction.commandName === RegisterCommand.data.name) {
-      await RegisterCommand.execute(interaction);
-    } else if (interaction.commandName === InitializeCommand.data.name) {
-      await InitializeCommand.execute(interaction);
-    } else if (interaction.commandName === TimeCommand.data.name) {
-      await TimeCommand.execute(interaction);
-    } else if (interaction.commandName === RankCommand.data.name) {
-      await RankCommand.execute(interaction);
+    const command = mapper[interaction.commandName as keyof typeof mapper];
+
+    if (!command) {
+      return interaction.reply({
+        content: "❌ Comando não reconhecido.",
+        ephemeral: true,
+      });
+    }
+
+    try {
+      await command.execute(interaction);
+    } catch (error) {
+      console.error(`Erro ao executar /${interaction.commandName}`, error);
+
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp({
+          content: "⚠️ Ocorreu um erro ao executar este comando.",
+          ephemeral: true,
+        });
+      } else {
+        await interaction.reply({
+          content: "⚠️ Ocorreu um erro ao executar este comando.",
+          ephemeral: true,
+        });
+      }
     }
   }
 
@@ -135,7 +164,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const textChannel = await guild.channels.create({
         name: textChannelName,
         type: ChannelType.GuildText,
-        parent: category.id, // define a categoria
+        parent: category.id,
         permissionOverwrites: [
           {
             id: guild.roles.everyone,
