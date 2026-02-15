@@ -28,6 +28,7 @@ model User {
 
   sessions Session[]
   level    Level?
+  tasks    Task[]
 
   @@unique([discordId, guildId], name: "discord_guild_unique")
 }
@@ -80,3 +81,15 @@ model GuildConfig {
 
 //   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 // }
+
+model Task {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  description String
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}

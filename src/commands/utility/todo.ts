@@ -3,17 +3,24 @@ import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("todo")
-    .setDescription("Create a todo item")
+    .setDescription("Cria um item de tarefa (não funcional)")
     .addStringOption((option) =>
-      option.setName("text").setDescription("Todo content").setRequired(true),
+      option.setName("nome").setDescription("Nome da tarefa").setRequired(true),
+    )
+    .addStringOption((option) =>
+      option
+        .setName("descricao")
+        .setDescription("Descrição da tarefa")
+        .setRequired(true),
     ),
 
   async execute(interaction: ChatInputCommandInteraction) {
     const username = interaction.user.id;
-    const text = interaction.options.getString("text", true);
+    const name = interaction.options.getString("nome", true);
+    const description = interaction.options.getString("descricao", true);
 
     await interaction.reply(
-      `[NÃO FUNCIONAL] 📝 Todo criado por <@${username}>: **${text}**`,
+      `[NÃO FUNCIONAL] 📝 Todo criado por <@${username}>: **${name}** - ${description}`,
     );
   },
 };
