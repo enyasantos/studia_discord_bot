@@ -26,9 +26,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  sessions Session[]
-  level    Level?
-  tasks    Task[]
+  sessions         Session[]
+  level            Level?
+  tasks            Task[]
+  pomodoroSessions PomodoroSession[]
 
   @@unique([discordId, guildId], name: "discord_guild_unique")
 }
@@ -67,20 +68,20 @@ model GuildConfig {
   updatedAt      DateTime @updatedAt
 }
 
-//To-do: relação pomodoro-xp
-// model PomodoroSession {
-//   id             String    @id @default(uuid())
-//   userId         String
-//   startTime      DateTime  @default(now())
-//   endTime        DateTime?
-//   xpEarned       Int       @default(0)
-//   plannedMinutes Int
-//   completed      Boolean   @default(false)
-//   updatedAt      DateTime  @updatedAt
-//   createdAt      DateTime  @default(now())
+model PomodoroSession {
+  id        String    @id @default(uuid())
+  userId    String
+  mode      String
+  duration  Int
+  startTime DateTime  @default(now())
+  endTime   DateTime?
+  xpEarned  Int       @default(0)
+  completed Boolean   @default(false)
+  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now())
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-// }
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
 
 model Task {
   id          String   @id @default(uuid())

@@ -192,6 +192,8 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   level?: Prisma.XOR<Prisma.LevelNullableScalarRelationFilter, Prisma.LevelWhereInput> | null
+  tasks?: Prisma.TaskListRelationFilter
+  pomodoroSessions?: Prisma.PomodoroSessionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -203,6 +205,8 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   level?: Prisma.LevelOrderByWithRelationInput
+  tasks?: Prisma.TaskOrderByRelationAggregateInput
+  pomodoroSessions?: Prisma.PomodoroSessionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -218,6 +222,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   level?: Prisma.XOR<Prisma.LevelNullableScalarRelationFilter, Prisma.LevelWhereInput> | null
+  tasks?: Prisma.TaskListRelationFilter
+  pomodoroSessions?: Prisma.PomodoroSessionListRelationFilter
 }, "id" | "discord_guild_unique">
 
 export type UserOrderByWithAggregationInput = {
@@ -253,6 +259,8 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   level?: Prisma.LevelCreateNestedOneWithoutUserInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -264,6 +272,8 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   level?: Prisma.LevelUncheckedCreateNestedOneWithoutUserInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -275,6 +285,8 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   level?: Prisma.LevelUpdateOneWithoutUserNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -286,6 +298,8 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   level?: Prisma.LevelUncheckedUpdateOneWithoutUserNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -388,6 +402,34 @@ export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
 }
 
+export type UserCreateNestedOneWithoutPomodoroSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPomodoroSessionsInput, Prisma.UserUncheckedCreateWithoutPomodoroSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPomodoroSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPomodoroSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPomodoroSessionsInput, Prisma.UserUncheckedCreateWithoutPomodoroSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPomodoroSessionsInput
+  upsert?: Prisma.UserUpsertWithoutPomodoroSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPomodoroSessionsInput, Prisma.UserUpdateWithoutPomodoroSessionsInput>, Prisma.UserUncheckedUpdateWithoutPomodoroSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutTasksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTasksInput, Prisma.UserUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTasksInput, Prisma.UserUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTasksInput
+  upsert?: Prisma.UserUpsertWithoutTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTasksInput, Prisma.UserUpdateWithoutTasksInput>, Prisma.UserUncheckedUpdateWithoutTasksInput>
+}
+
 export type UserCreateWithoutLevelInput = {
   id?: string
   discordId: string
@@ -396,6 +438,8 @@ export type UserCreateWithoutLevelInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLevelInput = {
@@ -406,6 +450,8 @@ export type UserUncheckedCreateWithoutLevelInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLevelInput = {
@@ -432,6 +478,8 @@ export type UserUpdateWithoutLevelInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLevelInput = {
@@ -442,6 +490,8 @@ export type UserUncheckedUpdateWithoutLevelInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -452,6 +502,8 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   level?: Prisma.LevelCreateNestedOneWithoutUserInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -462,6 +514,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   level?: Prisma.LevelUncheckedCreateNestedOneWithoutUserInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -488,6 +542,8 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   level?: Prisma.LevelUpdateOneWithoutUserNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -498,6 +554,136 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   level?: Prisma.LevelUncheckedUpdateOneWithoutUserNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPomodoroSessionsInput = {
+  id?: string
+  discordId: string
+  guildId: string
+  username: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  level?: Prisma.LevelCreateNestedOneWithoutUserInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPomodoroSessionsInput = {
+  id?: string
+  discordId: string
+  guildId: string
+  username: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  level?: Prisma.LevelUncheckedCreateNestedOneWithoutUserInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPomodoroSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPomodoroSessionsInput, Prisma.UserUncheckedCreateWithoutPomodoroSessionsInput>
+}
+
+export type UserUpsertWithoutPomodoroSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPomodoroSessionsInput, Prisma.UserUncheckedUpdateWithoutPomodoroSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPomodoroSessionsInput, Prisma.UserUncheckedCreateWithoutPomodoroSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPomodoroSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPomodoroSessionsInput, Prisma.UserUncheckedUpdateWithoutPomodoroSessionsInput>
+}
+
+export type UserUpdateWithoutPomodoroSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  discordId?: Prisma.StringFieldUpdateOperationsInput | string
+  guildId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  level?: Prisma.LevelUpdateOneWithoutUserNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPomodoroSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  discordId?: Prisma.StringFieldUpdateOperationsInput | string
+  guildId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  level?: Prisma.LevelUncheckedUpdateOneWithoutUserNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTasksInput = {
+  id?: string
+  discordId: string
+  guildId: string
+  username: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  level?: Prisma.LevelCreateNestedOneWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTasksInput = {
+  id?: string
+  discordId: string
+  guildId: string
+  username: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  level?: Prisma.LevelUncheckedCreateNestedOneWithoutUserInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTasksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTasksInput, Prisma.UserUncheckedCreateWithoutTasksInput>
+}
+
+export type UserUpsertWithoutTasksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTasksInput, Prisma.UserUncheckedUpdateWithoutTasksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTasksInput, Prisma.UserUncheckedCreateWithoutTasksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTasksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTasksInput, Prisma.UserUncheckedUpdateWithoutTasksInput>
+}
+
+export type UserUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  discordId?: Prisma.StringFieldUpdateOperationsInput | string
+  guildId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  level?: Prisma.LevelUpdateOneWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  discordId?: Prisma.StringFieldUpdateOperationsInput | string
+  guildId?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  level?: Prisma.LevelUncheckedUpdateOneWithoutUserNestedInput
+  pomodoroSessions?: Prisma.PomodoroSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -507,10 +693,14 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
 
 export type UserCountOutputType = {
   sessions: number
+  tasks: number
+  pomodoroSessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  tasks?: boolean | UserCountOutputTypeCountTasksArgs
+  pomodoroSessions?: boolean | UserCountOutputTypeCountPomodoroSessionsArgs
 }
 
 /**
@@ -530,6 +720,20 @@ export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.SessionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TaskWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPomodoroSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PomodoroSessionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -540,6 +744,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   level?: boolean | Prisma.User$levelArgs<ExtArgs>
+  tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
+  pomodoroSessions?: boolean | Prisma.User$pomodoroSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -574,6 +780,8 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   level?: boolean | Prisma.User$levelArgs<ExtArgs>
+  tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
+  pomodoroSessions?: boolean | Prisma.User$pomodoroSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -584,6 +792,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     level: Prisma.$LevelPayload<ExtArgs> | null
+    tasks: Prisma.$TaskPayload<ExtArgs>[]
+    pomodoroSessions: Prisma.$PomodoroSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -988,6 +1198,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   level<T extends Prisma.User$levelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$levelArgs<ExtArgs>>): Prisma.Prisma__LevelClient<runtime.Types.Result.GetResult<Prisma.$LevelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tasks<T extends Prisma.User$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pomodoroSessions<T extends Prisma.User$pomodoroSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pomodoroSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PomodoroSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1451,6 +1663,54 @@ export type User$levelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   include?: Prisma.LevelInclude<ExtArgs> | null
   where?: Prisma.LevelWhereInput
+}
+
+/**
+ * User.tasks
+ */
+export type User$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Task
+   */
+  select?: Prisma.TaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Task
+   */
+  omit?: Prisma.TaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskInclude<ExtArgs> | null
+  where?: Prisma.TaskWhereInput
+  orderBy?: Prisma.TaskOrderByWithRelationInput | Prisma.TaskOrderByWithRelationInput[]
+  cursor?: Prisma.TaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
+}
+
+/**
+ * User.pomodoroSessions
+ */
+export type User$pomodoroSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PomodoroSession
+   */
+  select?: Prisma.PomodoroSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PomodoroSession
+   */
+  omit?: Prisma.PomodoroSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PomodoroSessionInclude<ExtArgs> | null
+  where?: Prisma.PomodoroSessionWhereInput
+  orderBy?: Prisma.PomodoroSessionOrderByWithRelationInput | Prisma.PomodoroSessionOrderByWithRelationInput[]
+  cursor?: Prisma.PomodoroSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PomodoroSessionScalarFieldEnum | Prisma.PomodoroSessionScalarFieldEnum[]
 }
 
 /**

@@ -35,6 +35,14 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
 
+client.on("unhandledRejection", (reason) => {
+  console.error("Unhandled Rejection:", reason);
+});
+
+client.on(Events.Error, (error) => {
+  console.error("Erro no cliente Discord:", error);
+});
+
 client.on(Events.GuildCreate, async (guild) => {
   try {
     console.log(`Fui adicionado ao servidor: ${guild.name}`);

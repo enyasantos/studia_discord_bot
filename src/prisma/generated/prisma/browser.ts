@@ -37,3 +37,13 @@ export type Session = Prisma.SessionModel
  * 
  */
 export type GuildConfig = Prisma.GuildConfigModel
+/**
+ * Model PomodoroSession
+ * 
+ */
+export type PomodoroSession = Prisma.PomodoroSessionModel
+/**
+ * Model Task
+ * 
+ */
+export type Task = Prisma.TaskModel

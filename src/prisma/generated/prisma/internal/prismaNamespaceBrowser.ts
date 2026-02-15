@@ -54,7 +54,9 @@ export const ModelName = {
   User: 'User',
   Level: 'Level',
   Session: 'Session',
-  GuildConfig: 'GuildConfig'
+  GuildConfig: 'GuildConfig',
+  PomodoroSession: 'PomodoroSession',
+  Task: 'Task'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -104,6 +106,7 @@ export const SessionScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   xpEarned: 'xpEarned',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
@@ -121,6 +124,35 @@ export const GuildConfigScalarFieldEnum = {
 } as const
 
 export type GuildConfigScalarFieldEnum = (typeof GuildConfigScalarFieldEnum)[keyof typeof GuildConfigScalarFieldEnum]
+
+
+export const PomodoroSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mode: 'mode',
+  duration: 'duration',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  xpEarned: 'xpEarned',
+  completed: 'completed',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PomodoroSessionScalarFieldEnum = (typeof PomodoroSessionScalarFieldEnum)[keyof typeof PomodoroSessionScalarFieldEnum]
+
+
+export const TaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  description: 'description',
+  completed: 'completed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
 
 
 export const SortOrder = {

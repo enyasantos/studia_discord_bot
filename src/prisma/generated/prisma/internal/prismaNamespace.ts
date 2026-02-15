@@ -387,7 +387,9 @@ export const ModelName = {
   User: 'User',
   Level: 'Level',
   Session: 'Session',
-  GuildConfig: 'GuildConfig'
+  GuildConfig: 'GuildConfig',
+  PomodoroSession: 'PomodoroSession',
+  Task: 'Task'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -403,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "level" | "session" | "guildConfig"
+    modelProps: "user" | "level" | "session" | "guildConfig" | "pomodoroSession" | "task"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -703,6 +705,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PomodoroSession: {
+      payload: Prisma.$PomodoroSessionPayload<ExtArgs>
+      fields: Prisma.PomodoroSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PomodoroSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PomodoroSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.PomodoroSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PomodoroSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>
+        }
+        findMany: {
+          args: Prisma.PomodoroSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>[]
+        }
+        create: {
+          args: Prisma.PomodoroSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>
+        }
+        createMany: {
+          args: Prisma.PomodoroSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PomodoroSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.PomodoroSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>
+        }
+        update: {
+          args: Prisma.PomodoroSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.PomodoroSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PomodoroSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PomodoroSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.PomodoroSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PomodoroSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.PomodoroSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePomodoroSession>
+        }
+        groupBy: {
+          args: Prisma.PomodoroSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PomodoroSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PomodoroSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PomodoroSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    Task: {
+      payload: Prisma.$TaskPayload<ExtArgs>
+      fields: Prisma.TaskFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TaskFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TaskFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>
+        }
+        findFirst: {
+          args: Prisma.TaskFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TaskFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>
+        }
+        findMany: {
+          args: Prisma.TaskFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>[]
+        }
+        create: {
+          args: Prisma.TaskCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>
+        }
+        createMany: {
+          args: Prisma.TaskCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TaskCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>[]
+        }
+        delete: {
+          args: Prisma.TaskDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>
+        }
+        update: {
+          args: Prisma.TaskUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>
+        }
+        deleteMany: {
+          args: Prisma.TaskDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TaskUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TaskUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>[]
+        }
+        upsert: {
+          args: Prisma.TaskUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaskPayload>
+        }
+        aggregate: {
+          args: Prisma.TaskAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTask>
+        }
+        groupBy: {
+          args: Prisma.TaskGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaskGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TaskCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaskCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -773,6 +923,7 @@ export const SessionScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   xpEarned: 'xpEarned',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
@@ -790,6 +941,35 @@ export const GuildConfigScalarFieldEnum = {
 } as const
 
 export type GuildConfigScalarFieldEnum = (typeof GuildConfigScalarFieldEnum)[keyof typeof GuildConfigScalarFieldEnum]
+
+
+export const PomodoroSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mode: 'mode',
+  duration: 'duration',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  xpEarned: 'xpEarned',
+  completed: 'completed',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PomodoroSessionScalarFieldEnum = (typeof PomodoroSessionScalarFieldEnum)[keyof typeof PomodoroSessionScalarFieldEnum]
+
+
+export const TaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  description: 'description',
+  completed: 'completed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -861,6 +1041,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -976,6 +1163,8 @@ export type GlobalOmitConfig = {
   level?: Prisma.LevelOmit
   session?: Prisma.SessionOmit
   guildConfig?: Prisma.GuildConfigOmit
+  pomodoroSession?: Prisma.PomodoroSessionOmit
+  task?: Prisma.TaskOmit
 }
 
 /* Types for Logging */

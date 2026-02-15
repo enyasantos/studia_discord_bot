@@ -4,6 +4,9 @@
 app = "discord-bot-autumn-morning-5147"
 primary_region = "gru"
 
+[env]
+  NODE_ENV = "production"
+
 [build]
   dockerfile = "Dockerfile"
 
