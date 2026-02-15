@@ -236,6 +236,18 @@ Criar notas/lembretes pessoais.
 
 ---
 
+### `/pomodoro`
+
+```
+/todo [minutos]
+```
+
+**Exemplo:**
+
+```
+/pomodoro 20
+```
+
 ## Sistema de XP e Níveis
 
 ### 💡 Como você ganha XP?

@@ -44,7 +44,7 @@ export default {
       {
         name: "/pomodoro",
         description:
-          "Inicia um timer de Pomodoro para sessões de estudo focado (não conta XP ainda)",
+          "Inicia um timer de Pomodoro para sessões de estudo focado",
       },
     ];
 
