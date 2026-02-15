@@ -41,6 +41,11 @@ export default {
         name: "/todo",
         description: "Cria um item de tarefa (não funcional)",
       },
+      {
+        name: "/pomodoro",
+        description:
+          "Inicia um timer de Pomodoro para sessões de estudo focado (não conta XP ainda)",
+      },
     ];
 
     const description = commandsList

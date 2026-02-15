@@ -19,6 +19,7 @@ import TimeCommand from "./commands/utility/time.js";
 import RankCommand from "./commands/utility/rank.js";
 import ScoreboardCommand from "./commands/utility/scoreboard.js";
 import CommandsCommand from "./commands/utility/commands.js";
+import PomodoroCommand from "./commands/utility/pomodoro.js";
 
 import finalizeSessionUsecase from "./usecases/finalize-session.usecase.js";
 import initializeSessionUsecase from "./usecases/initialize-session.usecase.js";
@@ -77,6 +78,7 @@ client.on(Events.ClientReady, (readyClient) => {
   client.application?.commands.create(RankCommand.data);
   client.application?.commands.create(ScoreboardCommand.data);
   client.application?.commands.create(CommandsCommand.data);
+  client.application?.commands.create(PomodoroCommand.data);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -90,19 +92,23 @@ client.on(Events.InteractionCreate, async (interaction) => {
     ranks: RankCommand,
     placar: ScoreboardCommand,
     help: CommandsCommand,
+    pomodoro: PomodoroCommand,
   };
 
   if (interaction.isChatInputCommand()) {
-    const command = mapper[interaction.commandName as keyof typeof mapper];
-
-    if (!command) {
-      return interaction.reply({
-        content: "❌ Comando não reconhecido.",
-        ephemeral: true,
-      });
-    }
-
     try {
+      const command = mapper[interaction.commandName as keyof typeof mapper];
+
+      if (!command) {
+        console.log(
+          `Comando não encontrado para: ${interaction.commandName} ${command}`,
+        );
+        return interaction.reply({
+          content: "❌ Comando não reconhecido.",
+          ephemeral: true,
+        });
+      }
+
       await command.execute(interaction);
     } catch (error) {
       console.error(`Erro ao executar /${interaction.commandName}`, error);
