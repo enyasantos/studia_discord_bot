@@ -8,10 +8,10 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User.ts'
-export type * from './models/Level.ts'
-export type * from './models/Session.ts'
-export type * from './models/GuildConfig.ts'
-export type * from './models/PomodoroSession.ts'
-export type * from './models/Task.ts'
-export type * from './commonInputTypes.ts'
+export type * from './models/User.js'
+export type * from './models/Level.js'
+export type * from './models/Session.js'
+export type * from './models/GuildConfig.js'
+export type * from './models/PomodoroSession.js'
+export type * from './models/Task.js'
+export type * from './commonInputTypes.js'

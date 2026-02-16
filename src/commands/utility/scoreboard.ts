@@ -28,7 +28,7 @@ export default {
     }
     const rankingText = levels
       .slice(0, 10)
-      .map((item, index) => {
+      .map((item: any, index: number) => {
         const icon = this.getRankIcon(index);
 
         if (item.userId === userDiscordId) {
@@ -40,7 +40,7 @@ export default {
       .join("\n");
 
     const userIndex = levels.findIndex(
-      (item) => item.user.discordId === userDiscordId,
+      (item: any) => item.user.discordId === userDiscordId,
     );
 
     const user = levels[userIndex];
