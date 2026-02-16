@@ -281,6 +281,19 @@ export default {
             .setStyle(ButtonStyle.Danger),
         );
 
+      const startFocusRow = () =>
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("startFocus")
+            .setLabel("Iniciar Foco")
+            .setEmoji("▶")
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId("stop")
+            .setLabel("Cancelar")
+            .setStyle(ButtonStyle.Danger),
+        );
+
       const startTimer = () => {
         clearTimer();
 
@@ -316,17 +329,20 @@ export default {
             mode = "FOCUS";
             durationMs = baseMinutes * 60 * 1000;
             remainingMs = durationMs;
-            endTime = Date.now() + durationMs;
-            isPaused = false;
-
-            await createPomodoroSession();
+            isPaused = true;
 
             await safeEdit({
-              embeds: [createEmbed()],
-              components: [focusControlsRow()],
+              embeds: [
+                new EmbedBuilder()
+                  .setColor("#ff4d4f")
+                  .setTitle("🍅 Pronto para novo foco?")
+                  .setDescription(
+                    "Clique em ▶ para iniciar o próximo Pomodoro.",
+                  ),
+              ],
+              components: [startFocusRow()],
             });
 
-            startTimer();
             return;
           }
 
@@ -454,6 +470,19 @@ export default {
           await safeEdit({
             embeds: [createEmbed()],
             components: [onBreakControlsRow()],
+          });
+
+          startTimer();
+        } else if (i.customId === "startFocus") {
+          isPaused = false;
+
+          endTime = Date.now() + remainingMs;
+
+          await createPomodoroSession();
+
+          await i.update({
+            embeds: [createEmbed()],
+            components: [focusControlsRow()],
           });
 
           startTimer();
