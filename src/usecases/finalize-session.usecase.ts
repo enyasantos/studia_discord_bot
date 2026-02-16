@@ -34,6 +34,10 @@ class FinalizeSessionUseCase {
     const { xpEarned } = session;
     const levelResult = await this.levelsService.addXp(user.id, xpEarned);
 
+    logger.info(
+      `Session finalized for user ${user.discordId} in guild ${guildId}`,
+    );
+
     return {
       session,
       levelResult,

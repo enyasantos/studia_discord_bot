@@ -2,6 +2,7 @@ import GuildService from "../services/guild.service.js";
 import LevelsService from "../services/levels.service.js";
 import SessionService from "../services/session.service.js";
 import UsersService from "../services/users.service.js";
+import logger from "../config/logger.js";
 
 class InitializeSessionUseCase {
   public sessionService: typeof SessionService;
@@ -39,6 +40,10 @@ class InitializeSessionUseCase {
     if (!session) {
       throw new Error("Failed to start a new session for user");
     }
+
+    logger.info(
+      `Session started for user ${userDiscordId} in guild ${guildId}`,
+    );
 
     return {
       session,
