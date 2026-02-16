@@ -7,6 +7,7 @@ import {
   ButtonStyle,
 } from "discord.js";
 import sessionService from "../../services/session.service.js";
+import logger from "../../config/logger.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -118,7 +119,7 @@ export default {
   ): Promise<{ now: Date | null; startTime: Date | null }> {
     const session = await sessionService.getCurrentSession(discordId, guildId);
     if (!session) {
-      console.log(`No active session found for user ${discordId}`);
+      logger.info(`[Time] No active session found for user ${discordId}`);
       return { now: null, startTime: null };
     }
     const now = new Date();

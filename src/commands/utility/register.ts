@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import usersService from "../../services/users.service.js";
 import levelsService from "../../services/levels.service.js";
+import logger from "../../config/logger.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -30,7 +31,7 @@ export default {
         `<@${interaction.user.id}> foi registrado com sucesso!`,
       );
     } catch (error) {
-      console.error("Error registering user:", error);
+      logger.error({ err: error }, "[Register] Error registering user");
       await interaction.reply(
         `Ocorreu um erro ao registrar você. Tente novamente mais tarde.`,
       );

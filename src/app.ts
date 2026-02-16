@@ -26,6 +26,7 @@ import finalizeSessionUsecase from "./usecases/finalize-session.usecase.js";
 import initializeSessionUsecase from "./usecases/initialize-session.usecase.js";
 import guildConfigurationUseCase from "./usecases/guild-configuration.usecase.js";
 import getGuildConfigurationUseCase from "./usecases/get-guild-configuration.usecase.js";
+import logger from "./config/logger.js";
 
 dotenv.config();
 
@@ -37,16 +38,16 @@ const client = new Client({
 });
 
 client.on("unhandledRejection", (reason) => {
-  console.error("Unhandled Rejection:", reason);
+  logger.error("[Client] Unhandled Rejection:", reason);
 });
 
 client.on(Events.Error, (error) => {
-  console.error("Erro no cliente Discord:", error);
+  logger.error({ err: error }, "[Client] Error");
 });
 
 client.on(Events.GuildCreate, async (guild) => {
   try {
-    console.log(`Fui adicionado ao servidor: ${guild.name}`);
+    logger.info(`[Client] Fui adicionado ao servidor: ${guild.name}`);
 
     const botRole = await guild.roles.create({
       name: "StudiaBot",
@@ -60,7 +61,7 @@ client.on(Events.GuildCreate, async (guild) => {
       reason: "Cargo necessário para o bot funcionar corretamente",
     });
 
-    console.log(`Cargo criado: ${botRole.name}`);
+    logger.info(`[Client] Cargo criado: ${botRole.name}`);
 
     const botMember = guild.members.me;
     if (botMember) {
@@ -68,15 +69,25 @@ client.on(Events.GuildCreate, async (guild) => {
         botRole,
         "Ativando permissões necessárias para o bot",
       );
-      console.log("Cargo atribuído ao bot!");
+      logger.info("[Client] Cargo atribuído ao bot!");
     }
   } catch (error) {
-    console.error("Erro ao configurar o servidor:", error);
+    if (error instanceof Error) {
+      logger.error(
+        { err: error },
+        "[Client] Erro desconhecido ao salvar configuração",
+      );
+    } else {
+      logger.error(
+        { err: new Error(String(error)) },
+        "[Client] Erro desconhecido ao salvar configuração",
+      );
+    }
   }
 });
 
 client.on(Events.ClientReady, (readyClient) => {
-  console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+  logger.info(`[Client] Ready! Logged in as ${readyClient.user.tag}`);
 
   client.application?.commands.create(PingCommand.data);
   client.application?.commands.create(LevelCommand.data);
@@ -109,8 +120,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const command = mapper[interaction.commandName as keyof typeof mapper];
 
       if (!command) {
-        console.log(
-          `Comando não encontrado para: ${interaction.commandName} ${command}`,
+        logger.warn(
+          `[Client] Comando não encontrado para: ${interaction.commandName}`,
         );
         return interaction.reply({
           content: "❌ Comando não reconhecido.",
@@ -120,7 +131,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
       await command.execute(interaction);
     } catch (error) {
-      console.error(`Erro ao executar /${interaction.commandName}`, error);
+      if (error instanceof Error) {
+        logger.error({ err: error }, "[Client] Erro ao executar comando");
+      } else {
+        logger.error(
+          { err: new Error(String(error)) },
+          "[Client] Erro desconhecido ao executar comando",
+        );
+      }
 
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({
@@ -218,7 +236,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
           ephemeral: true,
         });
       } catch (error) {
-        console.error("Erro ao salvar configuração do servidor:", error);
+        if (error instanceof Error) {
+          logger.error(
+            { err: error },
+            "[Client] Erro ao salvar configuração do servidor",
+          );
+        } else {
+          logger.error(
+            { err: new Error(String(error)) },
+            "[Client] Erro desconhecido ao salvar configuração",
+          );
+        }
+
         await category.delete(
           "Removendo categoria devido a erro na configuração do servidor",
         );
@@ -272,8 +301,8 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
   }
 
   if (!oldState.channelId && newState.channelId) {
-    console.log(
-      `${newState.member?.user.tag} joined voice channel ${newState.channel?.name}`,
+    logger.info(
+      `[Client] ${newState.member?.user.tag} joined voice channel ${newState.channel?.name}`,
     );
     await initializeSessionInGuild(
       oldState,
@@ -281,13 +310,13 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
       guildConfig.textChannelId,
     );
   } else if (oldState.channelId && !newState.channelId) {
-    console.log(
-      `${oldState.member?.user.tag} left voice channel ${oldState.channel?.name}`,
+    logger.info(
+      `[Client] ${oldState.member?.user.tag} left voice channel ${oldState.channel?.name}`,
     );
     await finalizeSessionInGuild(oldState, newState, guildConfig.textChannelId);
   } else {
-    console.log(
-      `${newState.member?.user.tag} switched from voice channel ${oldState.channel?.name} to ${newState.channel?.name}`,
+    logger.info(
+      `[Client] ${newState.member?.user.tag} switched from voice channel ${oldState.channel?.name} to ${newState.channel?.name}`,
     );
     await finalizeSessionInGuild(oldState, newState, guildConfig.textChannelId);
   }

@@ -1,7 +1,7 @@
 import { PrismaClient } from "../../../prisma/generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
-
+import logger from "../../config/logger.js";
 class PrismaService {
   private static instance: PrismaClient;
 
@@ -15,7 +15,7 @@ class PrismaService {
       });
 
       PrismaService.instance = new PrismaClient({ adapter });
-      console.log("Prisma Client initialized!");
+      logger.info("[PrismaService] Prisma Client initialized!");
     }
     return PrismaService.instance;
   }
@@ -28,9 +28,12 @@ class PrismaService {
       // Teste real de query
       await prisma.$queryRaw`SELECT 1`;
 
-      console.log("✅ Successfully connected to the database!");
+      logger.info("[PrismaService] ✅ Successfully connected to the database!");
     } catch (error) {
-      console.error("❌Error on connecting to the database:", error);
+      logger.error(
+        { err: error },
+        "[PrismaService] ❌Error on connecting to the database:",
+      );
       throw error;
     }
   }

@@ -1,6 +1,7 @@
 import LevelsService from "../services/levels.service.js";
 import SessionService from "../services/session.service.js";
 import UsersService from "../services/users.service.js";
+import logger from "../config/logger.js";
 
 class FinalizeSessionUseCase {
   public sessionService: typeof SessionService;
@@ -24,7 +25,9 @@ class FinalizeSessionUseCase {
 
     const session = await this.sessionService.endCurrentSession(user.id);
     if (!session) {
-      console.error("No active session found for user");
+      logger.error(
+        `[FinalizeSession] No active session found for user ${user.id}`,
+      );
       return;
     }
 

@@ -31,6 +31,8 @@ import userRepository from "../../services/users.service.js";
 import levelService from "../../services/levels.service.js";
 import pomodoroManager from "../managers/pomodoro.manager.js";
 
+import logger from "../../config/logger.js";
+
 type Mode = "FOCUS" | "SHORT_BREAK" | "LONG_BREAK";
 const NODE_ENV = process.env.NODE_ENV || "DEVELOPMENT";
 
@@ -98,7 +100,7 @@ export default {
           if (!message) return;
           await message.edit(data);
         } catch (err) {
-          console.error("[Pomodoro] safeEdit:", err);
+          logger.error({ err }, "[Pomodoro] safeEdit");
         }
       };
 
@@ -149,7 +151,7 @@ export default {
               ephemeral: true,
             });
           } catch (err) {
-            console.error("[Pomodoro] Erro ao enviar XP embed:", err);
+            logger.error({ err }, "[Pomodoro] Erro ao enviar XP embed");
           }
         }
 
@@ -207,7 +209,7 @@ export default {
             clearTimeout(safetyTimeout);
           });
         } catch (error) {
-          console.error("[Pomodoro] Erro ao tocar som:", error);
+          logger.error({ err: error }, "[Pomodoro] Erro ao tocar som");
         }
       };
 
@@ -390,6 +392,10 @@ export default {
         });
       }
 
+      logger.info(
+        `[Pomodoro] Iniciado para ${user.username} (${user.id}) no servidor ${interaction.guildId} por ${baseMinutes} minutos.`,
+      );
+
       collector.on("end", async (_, reason) => {
         clearTimer();
 
@@ -399,7 +405,7 @@ export default {
           try {
             await finalizeSession(false);
           } catch (err) {
-            console.error("[Pomodoro] Erro ao finalizar sessão:", err);
+            logger.error({ err }, "[Pomodoro] Erro ao finalizar sessão");
           }
         }
       });
@@ -412,6 +418,7 @@ export default {
           });
 
         if (i.customId === "pause") {
+          await i.deferUpdate();
           isPaused = !isPaused;
 
           if (!isPaused) {
@@ -430,9 +437,10 @@ export default {
                   : [onBreakControlsRow()],
             });
           } catch (err) {
-            console.error("[Pomodoro] Erro ao atualizar interação:", err);
+            logger.error({ err }, "[Pomodoro] Erro ao atualizar interação");
           }
         } else if (i.customId === "add5" && mode === "FOCUS") {
+          await i.deferUpdate();
           remainingMs += 5 * 60 * 1000;
           endTime += 5 * 60 * 1000;
 
@@ -442,9 +450,10 @@ export default {
               components: [focusControlsRow()],
             });
           } catch (err) {
-            console.error("[Pomodoro] Erro ao atualizar interação:", err);
+            logger.error({ err }, "[Pomodoro] Erro ao atualizar interação");
           }
         } else if (i.customId === "stop") {
+          await i.deferUpdate();
           pomodoroManager.stop(interaction.guildId!, user.id);
 
           await finalizeSession(false);
@@ -465,9 +474,10 @@ export default {
               components: [],
             });
           } catch (err) {
-            console.error("[Pomodoro] Erro ao atualizar interação:", err);
+            logger.error({ err }, "[Pomodoro] Erro ao atualizar interação");
           }
         } else if (i.customId === "shortBreak") {
+          await i.deferUpdate();
           mode = "SHORT_BREAK";
           durationMs = SHORT_BREAK;
           remainingMs = durationMs;
@@ -481,6 +491,7 @@ export default {
 
           startTimer();
         } else if (i.customId === "longBreak") {
+          await i.deferUpdate();
           mode = "LONG_BREAK";
           durationMs = LONG_BREAK;
           remainingMs = durationMs;
@@ -494,6 +505,7 @@ export default {
 
           startTimer();
         } else if (i.customId === "startFocus") {
+          await i.deferUpdate();
           isPaused = false;
 
           endTime = Date.now() + remainingMs;
@@ -509,7 +521,7 @@ export default {
         }
       });
     } catch (error) {
-      console.error("[Pomodoro] Erro geral:", error);
+      logger.error({ err: error }, "[Pomodoro] Erro geral");
 
       pomodoroManager.stop(interaction.guildId!, interaction.user.id);
 
@@ -539,7 +551,7 @@ export default {
           });
         }
       } catch (err) {
-        console.error("[Pomodoro] Falha ao enviar mensagem de erro:", err);
+        logger.error({ err }, "[Pomodoro] Falha ao enviar mensagem de erro");
       }
     }
   },
