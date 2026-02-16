@@ -29,6 +29,7 @@ if (ffmpegPath) {
 import pomodoroRepository from "../../services/pomodoro.repository.js";
 import userRepository from "../../services/users.service.js";
 import levelService from "../../services/levels.service.js";
+import pomodoroManager from "../managers/pomodoro.manager.js";
 
 type Mode = "FOCUS" | "SHORT_BREAK" | "LONG_BREAK";
 const NODE_ENV = process.env.NODE_ENV || "DEVELOPMENT";
@@ -53,6 +54,16 @@ export default {
 
   async execute(interaction: ChatInputCommandInteraction) {
     try {
+      const user = interaction.user;
+      const mention = `<@${user.id}>`;
+
+      if (pomodoroManager.has(interaction.guildId!, user.id)) {
+        return interaction.reply({
+          content: "Você já possui um Pomodoro ativo 🍅",
+          ephemeral: true,
+        });
+      }
+
       const baseMinutes = interaction.options.getInteger("minutes", true);
 
       let mode: Mode = "FOCUS";
@@ -63,9 +74,6 @@ export default {
 
       let interval: NodeJS.Timeout | null = null;
       let message: Message;
-
-      const user = interaction.user;
-      const mention = `<@${user.id}>`;
 
       /* ===================== USUÁRIO ===================== */
 
@@ -294,6 +302,20 @@ export default {
             .setStyle(ButtonStyle.Danger),
         );
 
+      if (!currentPomodoroSession) {
+        await createPomodoroSession();
+      }
+
+      message = (await interaction.reply({
+        embeds: [createEmbed()],
+        components: [focusControlsRow()],
+        fetchReply: true,
+      })) as Message;
+
+      const collector = message.createMessageComponentCollector({
+        componentType: ComponentType.Button,
+      });
+
       const startTimer = () => {
         clearTimer();
 
@@ -352,27 +374,26 @@ export default {
               mode === "FOCUS" ? [focusControlsRow()] : [onBreakControlsRow()],
           });
         }, UPDATE_INTERVAL);
+
+        pomodoroManager.set(interaction.guildId!, user.id, {
+          interval,
+          collector,
+        });
       };
-
-      if (!currentPomodoroSession) {
-        await createPomodoroSession();
-      }
-
-      message = (await interaction.reply({
-        embeds: [createEmbed()],
-        components: [focusControlsRow()],
-        fetchReply: true,
-      })) as Message;
 
       startTimer();
 
-      const collector = message.createMessageComponentCollector({
-        componentType: ComponentType.Button,
-        time: 5 * 60 * 1000, // 5 minutes
-      });
+      if (interval) {
+        pomodoroManager.set(interaction.guildId!, user.id, {
+          interval,
+          collector,
+        });
+      }
 
       collector.on("end", async (_, reason) => {
         clearTimer();
+
+        pomodoroManager.delete(interaction.guildId!, user.id);
 
         if (reason !== "user_stop") {
           try {
@@ -424,8 +445,7 @@ export default {
             console.error("[Pomodoro] Erro ao atualizar interação:", err);
           }
         } else if (i.customId === "stop") {
-          clearTimer();
-          collector.stop("user_stop");
+          pomodoroManager.stop(interaction.guildId!, user.id);
 
           await finalizeSession(false);
 
@@ -490,6 +510,8 @@ export default {
       });
     } catch (error) {
       console.error("[Pomodoro] Erro geral:", error);
+
+      pomodoroManager.stop(interaction.guildId!, interaction.user.id);
 
       const errorEmbed = new EmbedBuilder()
         .setColor("#fc0303")

@@ -46,6 +46,7 @@ class LevelsService {
       levelUp: newLevel > levelData.level,
       newLevel,
       oldLevel: levelData.level,
+      totalXp: newXp,
     };
   }
 

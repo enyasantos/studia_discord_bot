@@ -7,6 +7,7 @@ import {
   PermissionsBitField,
   Guild,
   VoiceState,
+  EmbedBuilder,
 } from "discord.js";
 import * as dotenv from "dotenv";
 
@@ -261,8 +262,13 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     const user = newState?.member?.user ||
       oldState?.member?.user || { id: "unknown" };
 
-    const message = `<@${user.id}>, você precisa se registrar usando o comando /register antes de usar os canais de voz de estudo. Por favor, registre-se para começar a ganhar XP!`;
-    await sendMessage(guild, message, guildConfig.textChannelId);
+    const message = `<@${user.id}>, você precisa se registrar usando o comando /register antes de usar os canais de voz de estudo.
+    \nPor favor, registre-se para começar a ganhar XP!`;
+    const embed = new EmbedBuilder()
+      .setTitle("‼️ Registro Necessário")
+      .setColor("DarkRed")
+      .setDescription(message);
+    await sendMessage(guild, embed, guildConfig.textChannelId);
   }
 
   if (!oldState.channelId && newState.channelId) {
@@ -298,7 +304,11 @@ async function initializeSessionInGuild(
   );
 
   const message = `<@${newState.member?.user.id}> começou a estudar! Bons estudos! 📚`;
-  await sendMessage(newState.guild!, message, textChannelId);
+  const embed = new EmbedBuilder()
+    .setTitle("🎯 Sessão Inicializada")
+    .setColor("Blue")
+    .setDescription(message);
+  await sendMessage(newState.guild!, embed, textChannelId);
 }
 
 async function finalizeSessionInGuild(
@@ -313,17 +323,31 @@ async function finalizeSessionInGuild(
 
   if (!response) return;
 
+  if (response.levelResult.levelUp) {
+    const message = `<@${response.session.userId}> subiu de nível! \nParabéns! Continue assim! 🎉`;
+    const embed = new EmbedBuilder()
+      .setTitle("🏆 Subiu de Nível!")
+      .setColor("Green")
+      .setDescription(message);
+    await sendMessage(oldState.guild!, embed, textChannelId);
+  }
+
   const start = new Date(response.session.startTime);
   const end = new Date(response.session.endTime!);
   const minutesStudied = Math.floor((end.getTime() - start.getTime()) / 60000);
 
-  const message = `<@${oldState.member?.user.id}> ganhou ${response.session.xpEarned} XP por estudar por ${minutesStudied} minutos!`;
-  await sendMessage(oldState.guild!, message, textChannelId);
+  const message = `✨ <@${oldState.member?.user.id}> ganhou ${response.session.xpEarned} XP por estudar por ${minutesStudied} minutos!
+  \n📈 Nível Atual: ${response.levelResult.newLevel} (XP Total: ${response.levelResult.totalXp})`;
+  const embed = new EmbedBuilder()
+    .setTitle("✅ Sessão Finalizada")
+    .setColor("Yellow")
+    .setDescription(message);
+  await sendMessage(oldState.guild!, embed, textChannelId);
 }
 
 async function sendMessage(
   guild: Guild,
-  message: string,
+  embed: EmbedBuilder,
   textChannelId?: string,
 ) {
   if (!guild) return;
@@ -335,7 +359,10 @@ async function sendMessage(
         | undefined);
 
   if (textChannel) {
-    await textChannel.send(message.slice(0, 2000));
+    // await textChannel.send(message.slice(0, 2000));
+    await textChannel.send({
+      embeds: [embed],
+    });
   }
 }
 

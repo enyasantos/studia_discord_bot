@@ -13,14 +13,55 @@ export default {
     .setName("tempo")
     .setDescription(
       "Mostra o tempo total que você passou estudando no canal de voz.",
+    )
+    .addStringOption((option) =>
+      option
+        .setName("tipo")
+        .setDescription("Selecione qual período deseja visualizar.")
+        .setRequired(true)
+        .addChoices(
+          {
+            name: "🟢 Sessão Atual",
+            value: "atual",
+          },
+          {
+            name: "🕒 Última Sessão",
+            value: "ultima",
+          },
+          {
+            name: "📊 Tempo Total",
+            value: "total",
+          },
+        ),
     ),
 
   async execute(interaction: ChatInputCommandInteraction) {
-    const { embed, row } = await this.build(
-      interaction.user.id,
-      interaction.guild?.id || "",
-    );
-    await interaction.reply({ embeds: [embed], components: [row] });
+    const type = interaction.options.getString("tipo", true);
+    if (type === "atual") {
+      const { embed, row } = await this.build(
+        interaction.user.id,
+        interaction.guild?.id || "",
+      );
+      await interaction.reply({ embeds: [embed], components: [row] });
+    } else if (type === "ultima") {
+      const embed = new EmbedBuilder()
+        .setTitle("⏳ Última Sessão")
+        .setColor("Green")
+        .setDescription("Em breve, esta funcionalidade estará disponível.");
+      await interaction.reply({ embeds: [embed] });
+    } else if (type === "total") {
+      const embed = new EmbedBuilder()
+        .setTitle("📈 Tempo Total Estudado")
+        .setColor("Purple")
+        .setDescription("Em breve, esta funcionalidade estará disponível.");
+      await interaction.reply({ embeds: [embed] });
+    } else {
+      const embed = new EmbedBuilder()
+        .setTitle("❌ Opção Inválida")
+        .setColor("Red")
+        .setDescription("Por favor, selecione uma opção válida.");
+      await interaction.reply({ embeds: [embed] });
+    }
   },
 
   async build(userId: string, guildId: string) {

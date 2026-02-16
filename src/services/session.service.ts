@@ -44,7 +44,7 @@ class SessionService {
       },
     });
     if (!currentSession) {
-      throw new Error("No active session found for user");
+      return null;
     }
 
     let xpEarned = this.calculateSessionXP(currentSession.startTime, endTime);
