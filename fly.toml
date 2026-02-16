@@ -1,5 +1,4 @@
-# fly.toml - Discord Bot configuration
-# Optimized for background worker (no HTTP service)
+# fly.toml - Discord Bot (FREE SAFE)
 
 app = "discord-bot-autumn-morning-5147"
 primary_region = "gru"
@@ -17,5 +16,4 @@ primary_region = "gru"
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
-  memory = "1gb"
-  memory_mb = 1024
+  memory_mb = 256
