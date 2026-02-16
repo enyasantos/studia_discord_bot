@@ -1,7 +1,7 @@
 # fly.toml - Discord Bot (FREE SAFE)
 
 app = "discord-bot-autumn-morning-5147"
-primary_region = "gru"
+primary_region = "iad"
 
 [build]
   dockerfile = "Dockerfile"
