@@ -1,14 +1,14 @@
-import GuildService from "../services/guild.service.js";
+import GuildRepository from "../repositories/guild.repository.js";
 
 class GetGuildConfigurationUseCase {
-  public guildService: typeof GuildService;
+  public guildRepository: typeof GuildRepository;
 
   constructor() {
-    this.guildService = GuildService;
+    this.guildRepository = GuildRepository;
   }
 
   async execute(guildId: string) {
-    return await this.guildService.getByGuildId(guildId);
+    return await this.guildRepository.getByGuildId(guildId);
   }
 }
 

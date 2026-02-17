@@ -1,6 +1,6 @@
-import PrismaService from "./database/prisma.service.js";
+import PrismaService from "../services/database/prisma.service.js";
 
-class GuildService {
+class GuildRepository {
   private prisma = PrismaService.getInstance();
   constructor() {}
 
@@ -38,4 +38,4 @@ class GuildService {
   }
 }
 
-export default new GuildService();
+export default new GuildRepository();

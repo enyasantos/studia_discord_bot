@@ -3,7 +3,7 @@ import {
   ChatInputCommandInteraction,
   EmbedBuilder,
 } from "discord.js";
-import levelsService from "../../services/levels.service.js";
+import levelsRepository from "../../repositories/levels.repository.js";
 import { getRankTitle } from "./shared/rank-title-by-level.js";
 
 export default {
@@ -19,7 +19,7 @@ export default {
       return;
     }
 
-    const levels = await levelsService.getAllLevelsByGuild(guildId);
+    const levels = await levelsRepository.getAllLevelsByGuild(guildId);
     if (levels.length === 0) {
       await interaction.reply(
         "Nenhum dado de XP encontrado para este servidor.",

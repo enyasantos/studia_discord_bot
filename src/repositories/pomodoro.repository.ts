@@ -1,4 +1,4 @@
-import PrismaService from "./database/prisma.service.js";
+import PrismaService from "../services/database/prisma.service.js";
 
 class PomodoroRepository {
   private prisma = PrismaService.getInstance();

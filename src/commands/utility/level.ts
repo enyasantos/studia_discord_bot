@@ -3,8 +3,8 @@ import {
   ChatInputCommandInteraction,
   EmbedBuilder,
 } from "discord.js";
-import usersService from "../../services/users.service.js";
-import levelsService from "../../services/levels.service.js";
+import usersRepository from "../../repositories/users.repository.js";
+import levelsRepository from "../../repositories/levels.repository.js";
 import { getRankTitle } from "./shared/rank-title-by-level.js";
 
 export default {
@@ -22,7 +22,10 @@ export default {
       return;
     }
 
-    const user = await usersService.findUserByDiscordId(userDiscordId, guildId);
+    const user = await usersRepository.findUserByDiscordId(
+      userDiscordId,
+      guildId,
+    );
 
     if (!user) {
       await interaction.reply(
@@ -31,7 +34,7 @@ export default {
       return;
     }
 
-    const currentLevel = await levelsService.getByUserId(user.id);
+    const currentLevel = await levelsRepository.getByUserId(user.id);
 
     const userLevel = currentLevel?.level ?? 0;
     const title = getRankTitle(userLevel);

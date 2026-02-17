@@ -1,6 +1,6 @@
-import PrismaService from "./database/prisma.service.js";
+import PrismaService from "../services/database/prisma.service.js";
 
-class SessionService {
+class SessionRepository {
   private prisma = PrismaService.getInstance();
   private MAX_SESSION_DURATION_MINUTES = 120; // 2 hours
   constructor() {}
@@ -68,4 +68,4 @@ class SessionService {
   }
 }
 
-export default new SessionService();
+export default new SessionRepository();

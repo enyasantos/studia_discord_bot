@@ -1,31 +1,31 @@
-import GuildService from "../services/guild.service.js";
-import LevelsService from "../services/levels.service.js";
-import SessionService from "../services/session.service.js";
-import UsersService from "../services/users.service.js";
+import GuildRepository from "../repositories/guild.repository.js";
+import LevelsRepository from "../repositories/levels.repository.js";
+import SessionRepository from "../repositories/session.repository.js";
+import UsersRepository from "../repositories/users.repository.js";
 import logger from "../config/logger.js";
 
 class InitializeSessionUseCase {
-  public sessionService: typeof SessionService;
-  public levelsService: typeof LevelsService;
-  public usersService: typeof UsersService;
-  public guildService: typeof GuildService;
+  public sessionRepository: typeof SessionRepository;
+  public levelsRepository: typeof LevelsRepository;
+  public usersRepository: typeof UsersRepository;
+  public guildRepository: typeof GuildRepository;
 
   constructor() {
-    this.sessionService = SessionService;
-    this.levelsService = LevelsService;
-    this.usersService = UsersService;
-    this.guildService = GuildService;
+    this.sessionRepository = SessionRepository;
+    this.levelsRepository = LevelsRepository;
+    this.usersRepository = UsersRepository;
+    this.guildRepository = GuildRepository;
   }
 
   async execute(userDiscordId: string, guildId: string) {
-    const guildConfig = await this.guildService.getByGuildId(guildId);
+    const guildConfig = await this.guildRepository.getByGuildId(guildId);
     if (!guildConfig) {
       throw new Error(
         "Guild configuration not found. Please set up the guild first.",
       );
     }
 
-    const user = await this.usersService.findUserByDiscordId(
+    const user = await this.usersRepository.findUserByDiscordId(
       userDiscordId,
       guildId,
     );
@@ -33,7 +33,7 @@ class InitializeSessionUseCase {
       throw new Error("User not found. Please register first.");
     }
 
-    const session = await this.sessionService.startNewSession(
+    const session = await this.sessionRepository.startNewSession(
       user.id,
       guildConfig.voiceChannelId,
     );
@@ -51,7 +51,7 @@ class InitializeSessionUseCase {
   }
 
   async checkUserExists(userDiscordId: string, guildId: string) {
-    const user = await this.usersService.findUserByDiscordId(
+    const user = await this.usersRepository.findUserByDiscordId(
       userDiscordId,
       guildId,
     );

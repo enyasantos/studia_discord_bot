@@ -6,7 +6,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
-import sessionService from "../../services/session.service.js";
+import sessionRepository from "../../repositories/session.repository.js";
 import logger from "../../config/logger.js";
 
 export default {
@@ -117,7 +117,10 @@ export default {
     discordId: string,
     guildId: string,
   ): Promise<{ now: Date | null; startTime: Date | null }> {
-    const session = await sessionService.getCurrentSession(discordId, guildId);
+    const session = await sessionRepository.getCurrentSession(
+      discordId,
+      guildId,
+    );
     if (!session) {
       logger.info(`[Time] No active session found for user ${discordId}`);
       return { now: null, startTime: null };

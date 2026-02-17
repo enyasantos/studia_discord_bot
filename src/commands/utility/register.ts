@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import usersService from "../../services/users.service.js";
-import levelsService from "../../services/levels.service.js";
+import usersRepository from "../../repositories/users.repository.js";
+import levelsRepository from "../../repositories/levels.repository.js";
 import logger from "../../config/logger.js";
 
 export default {
@@ -13,7 +13,7 @@ export default {
     const username = interaction.user.tag;
 
     try {
-      const existingUser = await usersService.findUserByDiscordId(
+      const existingUser = await usersRepository.findUserByDiscordId(
         discordId,
         guildId,
       );
@@ -24,8 +24,12 @@ export default {
         return;
       }
 
-      const user = await usersService.upsertUser(discordId, username, guildId);
-      await levelsService.create(user.id);
+      const user = await usersRepository.upsertUser(
+        discordId,
+        username,
+        guildId,
+      );
+      await levelsRepository.create(user.id);
 
       await interaction.reply(
         `<@${interaction.user.id}> foi registrado com sucesso!`,

@@ -26,9 +26,9 @@ if (ffmpegPath) {
   process.env.FFMPEG_PATH = ffmpegPath;
 }
 
-import pomodoroRepository from "../../services/pomodoro.repository.js";
-import userRepository from "../../services/users.service.js";
-import levelService from "../../services/levels.service.js";
+import pomodoroRepository from "../../repositories/pomodoro.repository.js";
+import userRepository from "../../repositories/users.repository.js";
+import levelRepository from "../../repositories/levels.repository.js";
 import pomodoroManager from "../managers/pomodoro.manager.js";
 
 import logger from "../../config/logger.js";
@@ -130,7 +130,7 @@ export default {
         );
 
         if (xpEarned > 0) {
-          await levelService.addXp(userDatabase.id, xpEarned);
+          await levelRepository.addXp(userDatabase.id, xpEarned);
 
           try {
             await interaction.followUp({

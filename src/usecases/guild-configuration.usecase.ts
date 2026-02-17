@@ -1,10 +1,10 @@
-import GuildService from "../services/guild.service.js";
+import GuildRepository from "../repositories/guild.repository.js";
 
 class GuildConfigurationUseCase {
-  public guildService: typeof GuildService;
+  public guildRepository: typeof GuildRepository;
 
   constructor() {
-    this.guildService = GuildService;
+    this.guildRepository = GuildRepository;
   }
 
   async execute(
@@ -13,7 +13,7 @@ class GuildConfigurationUseCase {
     textChannelId: string,
     voiceChannelId: string,
   ) {
-    return await this.guildService.upsert(
+    return await this.guildRepository.upsert(
       guildId,
       categoryId,
       textChannelId,

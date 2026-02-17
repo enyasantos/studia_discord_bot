@@ -1,6 +1,6 @@
-import PrismaService from "./database/prisma.service.js";
+import PrismaService from "../services/database/prisma.service.js";
 
-class LevelsService {
+class LevelsRepository {
   private prisma = PrismaService.getInstance();
 
   constructor() {}
@@ -72,4 +72,4 @@ class LevelsService {
   }
 }
 
-export default new LevelsService();
+export default new LevelsRepository();
