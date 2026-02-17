@@ -161,26 +161,6 @@ export default {
       .setTitle("📝 Suas tarefas")
       .setColor(0x2ecc71);
 
-    // const content = tasks
-    //   .map((task) => {
-    //     const status = task.completed ? "☑️" : "⬜";
-
-    //     let line = `**${tasks.indexOf(task) + 1}.** ${status} **${task.name}** ${task.completed ? `(+${task.xpEarned} XP)` : ""}`;
-
-    //     if (task.description) {
-    //       line += `\n\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0└ ${task.description}`;
-    //     }
-
-    //     return line;
-    //   })
-    //   .join("\n\n");
-
-    // const embed = new EmbedBuilder()
-    //   .setTitle(`📝 Suas tarefas (${total})`)
-    //   .setDescription(content)
-    //   .setColor(0x2ecc71)
-    //   .setTimestamp();
-
     tasks.forEach((task, index) => {
       embed.addFields(
         {
