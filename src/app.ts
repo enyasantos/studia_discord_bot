@@ -26,9 +26,10 @@ import finalizeSessionUsecase from "./usecases/finalize-session.usecase.js";
 import initializeSessionUsecase from "./usecases/initialize-session.usecase.js";
 import guildConfigurationUseCase from "./usecases/guild-configuration.usecase.js";
 import getGuildConfigurationUseCase from "./usecases/get-guild-configuration.usecase.js";
-import logger from "./config/logger.js";
 import resetTaskTodoUseCase from "./usecases/reset-task-todo.usecase.js";
 import finalizeTaskTodoUsercase from "./usecases/finalize-task-todo.usercase.js";
+
+import logger from "./config/logger.js";
 
 dotenv.config();
 

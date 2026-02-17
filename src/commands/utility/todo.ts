@@ -57,13 +57,13 @@ export default {
       return;
     }
 
-    if (interaction.options.getSubcommand() === "create") {
+    if (interaction.options.getSubcommand() === "criar") {
       const name = interaction.options.getString("nome", true);
       const description =
         interaction.options.getString("descricao", false) || undefined;
       await TodoRepository.create(user.id, name, description);
       await this.handleRenderTodoEmbed(user.id, interaction);
-    } else if (interaction.options.getSubcommand() === "list") {
+    } else if (interaction.options.getSubcommand() === "listar") {
       await this.handleRenderTodoEmbed(user.id, interaction);
     } else if (interaction.options.getSubcommand() === "finalizar") {
       const tasks = await this.handleGetAllTasks(user.id);
@@ -155,26 +155,57 @@ export default {
     }
 
     const total = tasks.length;
-
-    const content = tasks
-      .map((task) => {
-        const status = task.completed ? "☑️" : "⬜";
-
-        let line = `**${tasks.indexOf(task) + 1}.** ${status} **${task.name}** ${task.completed ? `(+${task.xpEarned} XP)` : ""}`;
-
-        if (task.description) {
-          line += `\n\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0└ ${task.description}`;
-        }
-
-        return line;
-      })
-      .join("\n\n");
+    const completed = tasks.filter((t) => t.completed).length;
 
     const embed = new EmbedBuilder()
-      .setTitle(`📝 Suas tarefas (${total})`)
-      .setDescription(content)
-      .setColor(0x2ecc71)
-      .setTimestamp();
+      .setTitle("📝 Suas tarefas")
+      .setColor(0x2ecc71);
+
+    // const content = tasks
+    //   .map((task) => {
+    //     const status = task.completed ? "☑️" : "⬜";
+
+    //     let line = `**${tasks.indexOf(task) + 1}.** ${status} **${task.name}** ${task.completed ? `(+${task.xpEarned} XP)` : ""}`;
+
+    //     if (task.description) {
+    //       line += `\n\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0└ ${task.description}`;
+    //     }
+
+    //     return line;
+    //   })
+    //   .join("\n\n");
+
+    // const embed = new EmbedBuilder()
+    //   .setTitle(`📝 Suas tarefas (${total})`)
+    //   .setDescription(content)
+    //   .setColor(0x2ecc71)
+    //   .setTimestamp();
+
+    tasks.forEach((task, index) => {
+      embed.addFields(
+        {
+          name: "",
+          value: `**${index + 1}.\u00A0\u00A0${task.completed ? "☑️" : "⬜"}\u00A0\u00A0\u00A0${task.name}**`,
+          inline: true,
+        },
+        {
+          name: "",
+          value: task.description?.substring(0, 100) || "-",
+          inline: true,
+        },
+        {
+          name: "XP",
+          value: task.completed ? `+${task.xpEarned ?? 0}` : "-",
+          inline: true,
+        },
+      );
+    });
+
+    embed.addFields({
+      name: "📊 Progresso",
+      value: `${completed}/${total} concluídas`,
+      inline: false,
+    });
     await interaction.reply({
       embeds: [embed],
     });
