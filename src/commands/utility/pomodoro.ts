@@ -32,6 +32,7 @@ import levelRepository from "../../repositories/levels.repository.js";
 import pomodoroManager from "../managers/pomodoro.manager.js";
 
 import logger from "../../config/logger.js";
+import { UserNotFoundMessage } from "./shared/messages/user-not-found.message.js";
 
 type Mode = "FOCUS" | "SHORT_BREAK" | "LONG_BREAK";
 const NODE_ENV = process.env.NODE_ENV || "DEVELOPMENT";
@@ -85,11 +86,8 @@ export default {
       );
 
       if (!userDatabase) {
-        await interaction.reply({
-          content:
-            "Usuário não encontrado no banco de dados. Use /start primeiro.",
-          ephemeral: true,
-        });
+        const embed = UserNotFoundMessage.embed;
+        await interaction.reply({ embeds: [embed], ephemeral: true });
         return;
       }
 
@@ -429,7 +427,7 @@ export default {
           }
 
           try {
-            await i.update({
+            await safeEdit({
               embeds: [createEmbed()],
               components:
                 mode === "FOCUS"
@@ -445,7 +443,7 @@ export default {
           endTime += 5 * 60 * 1000;
 
           try {
-            await i.update({
+            await safeEdit({
               embeds: [createEmbed()],
               components: [focusControlsRow()],
             });
@@ -459,7 +457,7 @@ export default {
           await finalizeSession(false);
 
           try {
-            await i.update({
+            await safeEdit({
               embeds: [
                 new EmbedBuilder()
                   .setColor("#e74c3c")
@@ -512,7 +510,7 @@ export default {
 
           await createPomodoroSession();
 
-          await i.update({
+          await safeEdit({
             embeds: [createEmbed()],
             components: [focusControlsRow()],
           });

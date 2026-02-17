@@ -50,6 +50,33 @@ class LevelsRepository {
     };
   }
 
+  async removeXp(userId: string, xpToRemove: number) {
+    const levelData = await this.getByUserId(userId);
+    if (!levelData) {
+      throw new Error("Level data not found for user");
+    }
+
+    const newXp = Math.max(0, levelData.xp - xpToRemove);
+    let newLevel = this.calculateLevel(newXp);
+
+    await this.prisma.level.update({
+      where: {
+        userId,
+      },
+      data: {
+        xp: newXp,
+        level: newLevel,
+      },
+    });
+
+    return {
+      levelUp: newLevel < levelData.level,
+      newLevel,
+      oldLevel: levelData.level,
+      totalXp: newXp,
+    };
+  }
+
   async getAllLevelsByGuild(guildId: string) {
     return await this.prisma.level.findMany({
       where: {

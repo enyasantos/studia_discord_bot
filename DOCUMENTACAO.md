@@ -136,6 +136,16 @@ Verifica a conexão com o bot.
 
 ---
 
+### ❓ `/help`
+
+Exibe a lista de comandos disponíveis e suas descrições.
+
+```
+/help
+```
+
+---
+
 ### 👤 `/nivel`
 
 Exibe seu perfil pessoal com suas estatísticas de progresso.
@@ -160,6 +170,22 @@ XP: 1250
 Titulo: Prata I
 Registrado em: 12/02/2026
 ```
+
+---
+
+### 🏆 `/placar`
+
+Mostra o ranking de XP do servidor.
+
+```
+/placar
+```
+
+**O que você verá:**
+
+- Top 10 do servidor
+- Sua posição destacada
+- XP total e nível
 
 ---
 
@@ -189,13 +215,19 @@ Mostra a **tabela completa de ranks** e seus níveis correspondentes.
 
 ### ⏱️ `/tempo`
 
-Mostra seu tempo total de estudo na **sessão atual**.
+Mostra seu tempo de estudo por período.
 
 ```
-/tempo
+/tempo tipo:<atual|ultima|total>
 ```
 
-**Informações exibidas:**
+**Opções:**
+
+- `atual` - Sessão atual
+- `ultima` - Última sessão (em breve)
+- `total` - Tempo total (em breve)
+
+**Informações exibidas (sessão atual):**
 
 - ⏳ **Tempo decorrido** - Quanto tempo você estudou nesta sessão
 - 🎁 **Multiplicadores ativos** - Bônus sendo aplicados
@@ -220,26 +252,30 @@ Multiplicador Total: 1.0x
 
 ### 📝 `/todo`
 
-Criar notas/lembretes pessoais.
+Gerencia suas tarefas.
 
 ```
-/todo [texto]
+/todo criar nome:<texto> descricao:<texto>
+/todo listar
+/todo finalizar
+/todo resetar
 ```
 
-**Exemplo:**
+**O que faz:**
 
-```
-/todo Assistir aula de matemática até terça
-```
-
-⚠️ **Status:** Este comando não está totalmente funcional no momento.
+- `criar` - Cria uma tarefa
+- `listar` - Lista suas tarefas
+- `finalizar` - Finaliza uma tarefa pendente
+- `resetar` - Reseta uma tarefa concluida
 
 ---
 
-### `/pomodoro`
+---
+
+### 🍅 `/pomodoro`
 
 ```
-/todo [minutos]
+/pomodoro <minutes>
 ```
 
 **Exemplo:**
@@ -247,6 +283,12 @@ Criar notas/lembretes pessoais.
 ```
 /pomodoro 20
 ```
+
+**O que faz:**
+
+- Inicia um ciclo de foco
+- Permite pausar, adicionar tempo e finalizar
+- Oferece pausas curtas e longas
 
 ## Sistema de XP e Níveis
 

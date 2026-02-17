@@ -27,11 +27,23 @@ class TodoRepository {
     });
   }
 
-  async update(taskId: string, completed: boolean) {
-    return await this.prisma.task.update({
+  async update(taskId: string, xpEarned: number, completed: boolean) {
+    const existingTask = await this.prisma.task.findUnique({
       where: { id: taskId },
-      data: { completed },
     });
+
+    if (!existingTask) throw new Error("Task não encontrada");
+
+    const oldXpEarned = existingTask.xpEarned;
+    const updatedTask = await this.prisma.task.update({
+      where: { id: taskId },
+      data: { xpEarned, completed },
+    });
+
+    return {
+      ...updatedTask,
+      oldXpEarned,
+    };
   }
 
   async list(userId: string) {

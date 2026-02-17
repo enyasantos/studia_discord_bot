@@ -27,6 +27,8 @@ import initializeSessionUsecase from "./usecases/initialize-session.usecase.js";
 import guildConfigurationUseCase from "./usecases/guild-configuration.usecase.js";
 import getGuildConfigurationUseCase from "./usecases/get-guild-configuration.usecase.js";
 import logger from "./config/logger.js";
+import resetTaskTodoUseCase from "./usecases/reset-task-todo.usecase.js";
+import finalizeTaskTodoUsercase from "./usecases/finalize-task-todo.usercase.js";
 
 dotenv.config();
 
@@ -265,6 +267,39 @@ client.on(Events.InteractionCreate, async (interaction) => {
         });
       }
     }
+  }
+});
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isStringSelectMenu()) return;
+
+  if (interaction.customId === "todo_finalize_select") {
+    const taskId = interaction.values[0];
+
+    await finalizeTaskTodoUsercase.execute(
+      interaction.user.id,
+      interaction.guildId!,
+      taskId,
+    );
+
+    await interaction.update({
+      content: "✅ Tarefa finalizada com sucesso!",
+      components: [],
+    });
+  }
+  if (interaction.customId === "todo_reset_select") {
+    const taskId = interaction.values[0];
+
+    await resetTaskTodoUseCase.execute(
+      interaction.user.id,
+      interaction.guildId!,
+      taskId,
+    );
+
+    await interaction.update({
+      content: "✅ Tarefa resetada com sucesso!",
+      components: [],
+    });
   }
 });
 

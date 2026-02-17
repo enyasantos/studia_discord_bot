@@ -13,6 +13,10 @@ export default {
 
   async execute(interaction: ChatInputCommandInteraction) {
     const commandsList = [
+      {
+        name: "/help",
+        description: "Mostra a lista de comandos disponíveis e suas descrições",
+      },
       { name: "/ping", description: "Responde com Pong!" },
       {
         name: "/configurar",
@@ -25,7 +29,7 @@ export default {
       {
         name: "/tempo",
         description:
-          "Mostra o tempo total que você passou estudando no canal de voz",
+          "Mostra seu tempo estudado (sessão atual, última ou total)",
       },
       {
         name: "/nivel",
@@ -34,17 +38,12 @@ export default {
       { name: "/placar", description: "Mostra o placar de XP do servidor" },
       { name: "/ranks", description: "Mostra a tabela de ranks e níveis" },
       {
-        name: "/help",
-        description: "Mostra a lista de comandos disponíveis e suas descrições",
-      },
-      {
         name: "/todo",
-        description: "Cria um item de tarefa (não funcional)",
+        description: "Gerencia tarefas (criar, listar, finalizar, resetar)",
       },
       {
         name: "/pomodoro",
-        description:
-          "Inicia um timer de Pomodoro para sessões de estudo focado",
+        description: "Inicia um ciclo Pomodoro",
       },
     ];
 
