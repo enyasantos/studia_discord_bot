@@ -319,10 +319,14 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
   )
     return;
 
+  const userIdBot = guild.members.me?.user.id;
+  if (newState.member?.user.id === userIdBot) return;
+
   const userExists = await initializeSessionUsecase.checkUserExists(
     newState.member!.user.id,
     newState.guild!.id,
   );
+
   if (!userExists) {
     const user = newState?.member?.user ||
       oldState?.member?.user || { id: "unknown" };

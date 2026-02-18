@@ -30,7 +30,10 @@ class InitializeSessionUseCase {
       guildId,
     );
     if (!user) {
-      throw new Error("User not found. Please register first.");
+      throw new Error(
+        "[Session Initialize] User not found. Please register first. Id search: " +
+          userDiscordId,
+      );
     }
 
     const session = await this.sessionRepository.startNewSession(

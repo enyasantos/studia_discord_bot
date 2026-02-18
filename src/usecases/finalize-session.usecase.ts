@@ -20,7 +20,10 @@ class FinalizeSessionUseCase {
       guildId,
     );
     if (!user) {
-      throw new Error("User not found. Please register first.");
+      throw new Error(
+        "[Session Finalize] User not found. Please register first. Id search: " +
+          discordId,
+      );
     }
 
     const session = await this.sessionRepository.endCurrentSession(user.id);
