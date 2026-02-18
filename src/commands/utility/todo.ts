@@ -164,7 +164,7 @@ export default {
     tasks.forEach((task, index) => {
       embed.addFields(
         {
-          name: "",
+          name: "\u00A0\u00A0\u00A0",
           value: `**${index + 1}.\u00A0\u00A0${task.completed ? "☑️" : "⬜"}\u00A0\u00A0\u00A0${task.name}**`,
           inline: true,
         },
