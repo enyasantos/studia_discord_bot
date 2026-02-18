@@ -54,6 +54,7 @@ export default {
     const embed = new EmbedBuilder()
       .setTitle("📚 Central de Ajuda — Comandos do Bot")
       .setDescription(description)
+      .setColor(0x5865f2)
       .addFields({
         name: "🎯 Iniciando uma sessão de estudo",
         value:
@@ -63,7 +64,41 @@ export default {
           "**Por padrão:** `Estudo` → `canal-de-voz`\n\n" +
           "✨ Pronto! Sua sessão começa **automaticamente** assim que você entrar no canal.",
       })
-      .setColor(0x5865f2)
+      .addFields({
+        name: "⭐ Ganhando XP — 3 Formas Principais",
+        value:
+          "Existem várias maneiras de ganhar experiência e subir de nível!",
+      })
+      .addFields({
+        name: "1️⃣ Sessões de Voz",
+        value:
+          "Ganhe XP por estar em um canal de voz:\n" +
+          "• **Até 10 min:** 15 XP\n" +
+          "• **11-20 min:** 50 XP\n" +
+          "• **21-40 min:** 100 XP\n" +
+          "• **41-60 min:** 150 XP\n" +
+          "• **Acima de 60 min (máx 120 min):** 200 XP\n\n" +
+          "💡 Inicie uma sessão entrando no canal de voz específico — o XP é calculado automaticamente ao sair!",
+        inline: false,
+      })
+      .addFields({
+        name: "2️⃣Pomodoro",
+        value:
+          "Complete ciclos Pomodoro (técnica de produtividade):\n" +
+          "• **Ciclo completo:** 50 XP\n" +
+          "• **Ciclo incompleto:** 0 XP\n\n" +
+          "💡 Use **/pomodoro [minutos]** para iniciar. Conclua o tempo para ganhar XP!",
+        inline: false,
+      })
+      .addFields({
+        name: "3️⃣ Tarefas (TODO)",
+        value:
+          "Crie e conclua tarefas com **/todo**:\n" +
+          "• **Tarefa normal:** 50 XP\n" +
+          "• **Tarefa durante Pomodoro ativo:** 75 XP (bônus de 50%)\n\n" +
+          "💡 Finalize suas tarefas com `/todo finalizar` para ganhar XP. Se resetar, perde tudo!",
+        inline: false,
+      })
       .setFooter({
         text: "Use os comandos acima para interagir comigo! Bons estudos 🚀",
       })
