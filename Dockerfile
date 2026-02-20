@@ -28,4 +28,4 @@ ENV NODE_OPTIONS="--max-old-space-size=384"
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/src/app.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/app.js"]

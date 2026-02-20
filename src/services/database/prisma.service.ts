@@ -1,5 +1,4 @@
-import { PrismaClient } from "../../../prisma/generated/prisma/client.js";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 import logger from "../../config/logger.js";
 
@@ -14,7 +13,6 @@ class PrismaService {
 
   private constructor() {}
 
-  // Returns the single instance of PrismaClient
   public static getInstance(): PrismaClient {
     if (!PrismaService.instance) {
       if (globalThis.__prismaClient__) {
@@ -22,11 +20,7 @@ class PrismaService {
         return PrismaService.instance;
       }
 
-      const adapter = new PrismaPg({
-        connectionString: process.env.DATABASE_URL,
-      });
-
-      PrismaService.instance = new PrismaClient({ adapter });
+      PrismaService.instance = new PrismaClient();
       globalThis.__prismaClient__ = PrismaService.instance;
       logger.info("[PrismaService] Prisma Client initialized!");
     }
@@ -44,8 +38,6 @@ class PrismaService {
       const connectPromise = (async () => {
         const prisma = PrismaService.getInstance();
         await prisma.$connect();
-
-        // Teste real de query
         await prisma.$queryRaw`SELECT 1`;
 
         PrismaService.registerShutdownHooks();
