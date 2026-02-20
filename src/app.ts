@@ -32,11 +32,11 @@ import finalizeTaskTodoUsercase from "./usecases/finalize-task-todo.usercase.js"
 import logger from "./config/logger.js";
 import pomodoroRecoveryUsecase from "./usecases/pomodoro-recovery.usecase.js";
 import { startPomodoroWorker } from "./workers/pomodoro.worker.js";
+import PrismaService from "./services/database/prisma.service.js";
 
 dotenv.config();
 
-const PrismaService = await import("./services/database/prisma.service.js");
-await PrismaService.default.connect();
+await PrismaService.connect();
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
