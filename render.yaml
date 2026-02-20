@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: discord-bot
+    env: docker
+    plan: free
+    autoDeploy: true

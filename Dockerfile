@@ -28,4 +28,4 @@ ENV NODE_OPTIONS="--max-old-space-size=384"
 
 EXPOSE 3000
 
-CMD ["node", "dist/app.js"]
+CMD ["npm", "run", "start:render"]
