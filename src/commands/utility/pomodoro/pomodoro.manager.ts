@@ -1,5 +1,5 @@
 import { createActor, ActorRefFrom } from "xstate";
-import { pomodoroMachine } from "./pomodoro.machine";
+import { pomodoroMachine } from "./pomodoro.machine.js";
 
 type ActorType = ActorRefFrom<typeof pomodoroMachine>;
 

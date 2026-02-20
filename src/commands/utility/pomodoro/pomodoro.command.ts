@@ -6,19 +6,19 @@ import {
   EmbedBuilder,
 } from "discord.js";
 
-import pomodoroManager from "./pomodoro.manager";
+import pomodoroManager from "./pomodoro.manager.js";
 import {
   focusEmbed,
   breakEmbed,
   focusButtons,
   breakDecisionButtons,
   breakEndButtons,
-} from "./pomodoro.ui";
-import usersRepository from "../../../repositories/users.repository";
-import levelsRepository from "../../../repositories/levels.repository";
-import { UserNotFoundMessage } from "../shared/messages/user-not-found.message";
-import pomodoroRepository from "../../../repositories/pomodoro.repository";
-import XP_CONFIG from "../../../config/xp-config";
+} from "./pomodoro.ui.js";
+import usersRepository from "../../../repositories/users.repository.js";
+import levelsRepository from "../../../repositories/levels.repository.js";
+import { UserNotFoundMessage } from "../shared/messages/user-not-found.message.js";
+import pomodoroRepository from "../../../repositories/pomodoro.repository.js";
+import XP_CONFIG from "../../../config/xp-config.js";
 
 const NODE_ENV = process.env.NODE_ENV || "DEVELOPMENT";
 

@@ -1,9 +1,9 @@
-import pomodoroRepository from "../repositories/pomodoro.repository";
-import levelsRepository from "../repositories/levels.repository";
+import pomodoroRepository from "../repositories/pomodoro.repository.js";
+import levelsRepository from "../repositories/levels.repository.js";
 import { Client, EmbedBuilder } from "discord.js";
-import pomodoroManager from "../commands/utility/pomodoro/pomodoro.manager";
-import logger from "../config/logger";
-import XP_CONFIG from "../config/xp-config";
+import pomodoroManager from "../commands/utility/pomodoro/pomodoro.manager.js";
+import logger from "../config/logger.js";
+import XP_CONFIG from "../config/xp-config.js";
 
 export function startPomodoroWorker(client: Client) {
   let isProcessing = false;
