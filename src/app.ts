@@ -33,6 +33,7 @@ import logger from "./config/logger.js";
 import pomodoroRecoveryUsecase from "./usecases/pomodoro-recovery.usecase.js";
 import { startPomodoroWorker } from "./workers/pomodoro.worker.js";
 import PrismaService from "./services/database/prisma.service.js";
+import http from "http";
 
 dotenv.config();
 
@@ -442,3 +443,10 @@ async function sendMessage(
 }
 
 client.login(process.env.DISCORD_BOT_TOKEN);
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.end("Bot online");
+});
+
+server.listen(process.env.PORT || 3000);
