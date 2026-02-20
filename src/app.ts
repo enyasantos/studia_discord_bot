@@ -20,7 +20,7 @@ import TimeCommand from "./commands/utility/time.js";
 import RankCommand from "./commands/utility/rank.js";
 import ScoreboardCommand from "./commands/utility/scoreboard.js";
 import CommandsCommand from "./commands/utility/commands.js";
-import PomodoroCommand from "./commands/utility/pomodoro.js";
+import PomodoroCommand from "./commands/utility/pomodoro/pomodoro.command.js";
 
 import finalizeSessionUsecase from "./usecases/finalize-session.usecase.js";
 import initializeSessionUsecase from "./usecases/initialize-session.usecase.js";
@@ -30,6 +30,8 @@ import resetTaskTodoUseCase from "./usecases/reset-task-todo.usecase.js";
 import finalizeTaskTodoUsercase from "./usecases/finalize-task-todo.usercase.js";
 
 import logger from "./config/logger.js";
+import pomodoroRecoveryUsecase from "./usecases/pomodoro-recovery.usecase.js";
+import { startPomodoroWorker } from "./workers/pomodoro.worker.js";
 
 dotenv.config();
 
@@ -89,8 +91,10 @@ client.on(Events.GuildCreate, async (guild) => {
   }
 });
 
-client.on(Events.ClientReady, (readyClient) => {
+client.on(Events.ClientReady, async (readyClient) => {
   logger.info(`[Client] Ready! Logged in as ${readyClient.user.tag}`);
+
+  startPomodoroWorker(client);
 
   client.application?.commands.create(PingCommand.data);
   client.application?.commands.create(LevelCommand.data);
@@ -102,6 +106,8 @@ client.on(Events.ClientReady, (readyClient) => {
   client.application?.commands.create(ScoreboardCommand.data);
   client.application?.commands.create(CommandsCommand.data);
   client.application?.commands.create(PomodoroCommand.data);
+
+  await pomodoroRecoveryUsecase.execute();
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {

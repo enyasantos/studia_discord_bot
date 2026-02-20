@@ -2,7 +2,7 @@ import todoRepository from "../repositories/todo.repository.js";
 import levelsRepository from "../repositories/levels.repository.js";
 import usersRepository from "../repositories/users.repository.js";
 import pomodoroRepository from "../repositories/pomodoro.repository.js";
-import XP_CONFIG from "../shared/xp-config.js";
+import XP_CONFIG from "../config/xp-config.js";
 
 class FinalizeTaskTodoUseCase {
   constructor() {}
