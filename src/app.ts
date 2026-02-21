@@ -34,7 +34,8 @@ import logger from "./config/logger.js";
 import pomodoroRecoveryUsecase from "./usecases/pomodoro-recovery.usecase.js";
 import { startPomodoroWorker } from "./workers/pomodoro.worker.js";
 import PrismaService from "./services/database/prisma.service.js";
-import http from "http";
+import express from "express";
+import { renderQueue, renderQueue } from "./redis/redis.service.js";
 
 dotenv.config();
 
@@ -445,9 +446,26 @@ async function sendMessage(
 
 client.login(process.env.DISCORD_BOT_TOKEN);
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.end("Bot online");
+const server = express();
+server.use(express.json());
+
+server.get("/", (req, res) => res.send("Bot online"));
+
+server.get("/healthz", async (req, res) => {
+  try {
+    const databaseStatus = await PrismaService.checkHealth();
+    if (databaseStatus) {
+      return res.sendStatus(200);
+    } else {
+      return res.status(500).json({ message: "Database connection failed" });
+    }
+  } catch (err) {
+    console.error("Health check failed:", err);
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    return res
+      .status(500)
+      .json({ message: "Database health check failed", error: errorMessage });
+  }
 });
 
 server.listen(process.env.PORT || 3000);

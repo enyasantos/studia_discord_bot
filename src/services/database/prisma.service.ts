@@ -59,6 +59,20 @@ class PrismaService {
     }
   }
 
+  public static async checkHealth(): Promise<boolean> {
+    try {
+      const prisma = PrismaService.getInstance();
+      await prisma.$queryRaw`SELECT 1`;
+      return true;
+    } catch (error) {
+      logger.error(
+        { err: error },
+        "[PrismaService] ❌ Database health check failed:",
+      );
+      return false;
+    }
+  }
+
   private static registerShutdownHooks() {
     if (globalThis.__prismaShutdownHooksRegistered__) {
       return;
