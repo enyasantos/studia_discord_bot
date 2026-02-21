@@ -35,7 +35,6 @@ import pomodoroRecoveryUsecase from "./usecases/pomodoro-recovery.usecase.js";
 import { startPomodoroWorker } from "./workers/pomodoro.worker.js";
 import PrismaService from "./services/database/prisma.service.js";
 import express from "express";
-import { renderQueue, renderQueue } from "./redis/redis.service.js";
 
 dotenv.config();
 
