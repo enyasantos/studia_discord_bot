@@ -4,6 +4,7 @@ import {
   ComponentType,
   Message,
   EmbedBuilder,
+  MessageFlags,
 } from "discord.js";
 
 import pomodoroManager from "./pomodoro.manager.js";
@@ -47,7 +48,7 @@ export default {
     if (!dbUser) {
       return interaction.reply({
         embeds: [UserNotFoundMessage.embed],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -64,7 +65,7 @@ export default {
       );
       return interaction.reply({
         content: "Você já possui um Pomodoro ativo 🍅",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -72,14 +73,16 @@ export default {
     const actor = pomodoroManager.create(guildId, discordUserId);
     actor.send({ type: "START", duration: minutes * 60 * 1000 });
 
-    const message = (await interaction.reply({
+    await interaction.reply({
       embeds: [
         new EmbedBuilder()
           .setColor("#16c751")
           .setTitle("🍅 Iniciando Pomodoro..."),
       ],
-      fetchReply: true,
-    })) as Message;
+      withResponse: true,
+    });
+
+    const message = (await interaction.fetchReply()) as Message;
 
     const createFocusSession = async () => {
       const snapshot = actor.getSnapshot();
@@ -241,7 +244,10 @@ export default {
 
     collector.on("collect", async (i) => {
       if (i.user.id !== discordUserId)
-        return i.reply({ content: "Esse timer não é seu 👀", ephemeral: true });
+        return i.reply({
+          content: "Esse timer não é seu 👀",
+          flags: MessageFlags.Ephemeral,
+        });
 
       await i.deferUpdate();
       switch (i.customId) {

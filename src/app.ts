@@ -8,6 +8,7 @@ import {
   Guild,
   VoiceState,
   EmbedBuilder,
+  MessageFlags,
 } from "discord.js";
 import * as dotenv from "dotenv";
 
@@ -135,7 +136,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         );
         return interaction.reply({
           content: "❌ Comando não reconhecido.",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -153,12 +154,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({
           content: "⚠️ Ocorreu um erro ao executar este comando.",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       } else {
         await interaction.reply({
           content: "⚠️ Ocorreu um erro ao executar este comando.",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
     }
@@ -185,7 +186,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         return interaction.reply({
           content:
             "❌ Não tenho permissão para criar canais neste servidor. Por favor, me dê a permissão de 'Gerenciar Canais'.",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -243,7 +244,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         );
         await interaction.reply({
           content: `Categoria "${category.name}" criada com sucesso com os canais: ${textChannel} e ${voiceChannel}`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       } catch (error) {
         if (error instanceof Error) {
@@ -271,7 +272,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         );
         await interaction.reply({
           content: `Ocorreu um erro ao salvar a configuração do servidor. Por favor, tente novamente mais tarde.`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
     }

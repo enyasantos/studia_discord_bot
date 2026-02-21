@@ -4,6 +4,7 @@ import {
   EmbedBuilder,
   StringSelectMenuBuilder,
   ActionRowBuilder,
+  MessageFlags,
 } from "discord.js";
 
 import TodoRepository from "../../repositories/todo.repository.js";
@@ -53,7 +54,10 @@ export default {
 
     if (!user) {
       const embed = UserNotFoundMessage.embed;
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({
+        embeds: [embed],
+        flags: MessageFlags.Ephemeral,
+      });
       return;
     }
 
@@ -73,7 +77,7 @@ export default {
       if (!pending.length) {
         await interaction.reply({
           content: "Você não tem tarefas pendentes.",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
         return;
       }
@@ -96,7 +100,7 @@ export default {
       await interaction.reply({
         content: "Escolha a tarefa que deseja finalizar:",
         components: [row],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     } else if (interaction.options.getSubcommand() === "resetar") {
       const tasks = await this.handleGetAllTasks(user.id);
@@ -105,7 +109,7 @@ export default {
       if (!completed.length) {
         await interaction.reply({
           content: "Você não tem tarefas concluídas.",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
         return;
       }
@@ -129,7 +133,7 @@ export default {
         content:
           "Escolha a tarefa que deseja resetar (Obs.: Você perderá os XP ganhos):",
         components: [row],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
   },
@@ -150,7 +154,10 @@ export default {
         .setTitle("📝 Suas tarefas")
         .setDescription("Você não tem tarefas criadas.")
         .setColor(0x808080);
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({
+        embeds: [embed],
+        flags: MessageFlags.Ephemeral,
+      });
       return;
     }
 
