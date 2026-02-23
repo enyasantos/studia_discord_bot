@@ -348,7 +348,9 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     await sendMessage(guild, embed, guildConfig.textChannelId);
   }
 
-  if (!oldState.channelId && newState.channelId) {
+  if (oldChannelId === newChannelId) return;
+
+  if (!oldChannelId && newChannelId) {
     logger.info(
       `[Client] ${newState.member?.user.tag} joined voice channel ${newState.channel?.name}`,
     );
@@ -357,7 +359,7 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
       newState,
       guildConfig.textChannelId,
     );
-  } else if (oldState.channelId && !newState.channelId) {
+  } else if (oldChannelId && !newChannelId) {
     logger.info(
       `[Client] ${oldState.member?.user.tag} left voice channel ${oldState.channel?.name}`,
     );
