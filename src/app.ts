@@ -44,8 +44,12 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
 
-client.on("unhandledRejection", (reason) => {
-  logger.error("[Client] Unhandled Rejection:", reason);
+process.on("unhandledRejection", (reason) => {
+  logger.error({ reason }, "[Process] Unhandled Rejection");
+});
+
+process.on("uncaughtException", (error) => {
+  logger.error({ err: error }, "[Process] Uncaught Exception");
 });
 
 client.on(Events.Error, (error) => {
@@ -113,6 +117,42 @@ client.on(Events.ClientReady, async (readyClient) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
+  const interactionBase = {
+    interactionId: interaction.id,
+    interactionType: interaction.type,
+    userId: interaction.user.id,
+    guildId: interaction.guildId,
+    channelId: interaction.channelId,
+  };
+
+  if (interaction.isChatInputCommand()) {
+    logger.info(
+      {
+        ...interactionBase,
+        kind: "chat_input_command",
+        commandName: interaction.commandName,
+      },
+      "[Client] Interaction received",
+    );
+  } else if (interaction.isButton()) {
+    logger.info(
+      {
+        ...interactionBase,
+        kind: "button",
+        customId: interaction.customId,
+      },
+      "[Client] Interaction received",
+    );
+  } else {
+    logger.info(
+      {
+        ...interactionBase,
+        kind: "other",
+      },
+      "[Client] Interaction received",
+    );
+  }
+
   const mapper = {
     ping: PingCommand,
     nivel: LevelCommand,
@@ -445,7 +485,37 @@ async function sendMessage(
   }
 }
 
-client.login(process.env.DISCORD_BOT_TOKEN);
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function loginDiscordWithRetry() {
+  const token = process.env.DISCORD_BOT_TOKEN;
+
+  if (!token) {
+    logger.error("[Client] DISCORD_BOT_TOKEN não definido no ambiente");
+    return;
+  }
+
+  let attempt = 0;
+
+  while (true) {
+    attempt += 1;
+
+    try {
+      await client.login(token);
+      logger.info({ attempt }, "[Client] Login no Discord realizado");
+      return;
+    } catch (error) {
+      logger.error(
+        { err: error, attempt },
+        "[Client] Falha ao conectar no Discord, tentando novamente em 15s",
+      );
+
+      await wait(15_000);
+    }
+  }
+}
+
+void loginDiscordWithRetry();
 
 const server = express();
 server.use(express.json());
