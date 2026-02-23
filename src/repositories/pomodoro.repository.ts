@@ -136,6 +136,25 @@ class PomodoroRepository {
     });
   }
 
+  async findPausedTimeoutSessions(timeoutMs: number) {
+    const threshold = new Date(Date.now() - timeoutMs);
+
+    return await this.prisma.pomodoroSession.findMany({
+      where: {
+        status: "ACTIVE",
+        paused: true,
+        updatedAt: {
+          lte: threshold,
+        },
+      },
+      include: {
+        user: {
+          select: { id: true, discordId: true, guildId: true },
+        },
+      },
+    });
+  }
+
   async saveSnapshot(data: {
     sessionId: string;
     stateValue: unknown;

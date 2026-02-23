@@ -5,6 +5,8 @@ import pomodoroManager from "../commands/utility/pomodoro/pomodoro.manager.js";
 import logger from "../config/logger.js";
 import XP_CONFIG from "../config/xp-config.js";
 
+const PAUSED_TIMEOUT_MS = 5 * 60 * 1000;
+
 export function startPomodoroWorker(client: Client) {
   let isProcessing = false;
 
@@ -71,6 +73,49 @@ export function startPomodoroWorker(client: Client) {
           logger.error(
             { error: err, session },
             "(Worker) Error on pomodoro completion handling",
+          );
+        }
+      }
+
+      const pausedTimeoutSessions =
+        await pomodoroRepository.findPausedTimeoutSessions(PAUSED_TIMEOUT_MS);
+
+      if (pausedTimeoutSessions.length > 0) {
+        logger.info(
+          `[PomodoroWorker] ${pausedTimeoutSessions.length} sessões pausadas expiradas encontradas`,
+        );
+      }
+
+      for (const session of pausedTimeoutSessions) {
+        try {
+          const cancelled = await pomodoroRepository.cancelIfActive(session.id);
+
+          if (!cancelled) {
+            continue;
+          }
+
+          pomodoroManager.stop(session.user.guildId, session.user.discordId);
+
+          const guild = await client.guilds.fetch(session.user.guildId);
+          const channel = await guild.channels.fetch(session.channelId);
+
+          if (!channel?.isTextBased()) continue;
+
+          await channel.send({
+            content: `<@${session.user.discordId}>`,
+            embeds: [
+              new EmbedBuilder()
+                .setColor("#e67e22")
+                .setTitle("⏳ Pomodoro cancelado por inatividade")
+                .setDescription(
+                  "Seu pomodoro ficou pausado por mais de 5 minutos e foi encerrado automaticamente.",
+                ),
+            ],
+          });
+        } catch (err) {
+          logger.error(
+            { error: err, session },
+            "(Worker) Error on paused-timeout cancellation handling",
           );
         }
       }
